@@ -1,12 +1,14 @@
+import webpack from 'webpack'
+
 module.exports = {
-  entry: './main.js',
+  entry: [
+    'webpack-dev-server/client?http://localhost:3333',
+    'webpack/hot/dev-server',
+    './main.js'
+  ],
   output: {
     path: './',
     filename: 'index.js'
-  },
-  devServer: {
-    inline: true,
-    port: 3333
   },
   module: {
     loaders: [
@@ -19,5 +21,12 @@ module.exports = {
         }
       }
     ]
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
+  devServer: {
+    hot: true,
+    contentBase: './'
   }
 }
