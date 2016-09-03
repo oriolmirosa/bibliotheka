@@ -1,0 +1,23 @@
+{
+  "name": "bibliotheka",
+  "version": "0.1.0",
+  "description": "A reference manager webapp for academics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://oriolmirosa:nicole666@github.com/oriolmirosa/bibliotheka.git"
+  },
+  "author": "Oriol Mirosa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oriolmirosa/bibliotheka/issues"
+  },
+  "homepage": "https://github.com/oriolmirosa/bibliotheka#readme",
+  "dependencies": {
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1"
+  }
+}
