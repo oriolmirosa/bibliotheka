@@ -1,4 +1,4 @@
-import webpack from 'webpack'
+var webpack = require('webpack')
 
 module.exports = {
   entry: [
