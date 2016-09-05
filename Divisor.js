@@ -1,14 +1,14 @@
 import React from 'react'
 
 class Divisor extends React.Component {
+
   constructor (props) {
     super(props)
   }
 
   render () {
     return (
-      <div style={this.props.divisor} onMouseDown={this.dragStart}>
-        Viola!
+      <div style={this.props.divisor} onMouseDown={this.props.dragStart}>
       </div>
     )
   }
@@ -21,7 +21,7 @@ Divisor.propTypes = {
 Divisor.defaultProps = {
   divisor: {
     display: 'inline-block',
-    width: 15,
+    width: 10,
     height: 100 + '%',
     backgroundColor: 'grey',
     cursor: 'col-resize'

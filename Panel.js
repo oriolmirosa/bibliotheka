@@ -8,17 +8,26 @@ let panel = {
 }
 
 class Panel extends React.Component {
-  propTypes: {
-  text: React.PropTypes.string
+
+  constructor (props) {
+    super(props)
   }
 
   render () {
     return (
       <div style={panel}>
-        {this.props.text}
+        {this.props.width}
       </div>
     )
   }
+}
+
+Panel.propTypes = {
+  width: React.PropTypes.number
+}
+
+Panel.defaultProps = {
+  width: 100
 }
 
 export default Panel
