@@ -1,0 +1,6 @@
+.divisor  {
+  width: 10px;
+  height: 100%;
+  cursor: col-resize;
+  background-color: grey;
+}

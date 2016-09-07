@@ -4,8 +4,7 @@ import Screen from './Screen'
 class Root extends React.Component {
   render () {
     return (
-      <Screen>
-      </Screen>
+      <Screen />
     )
   }
 }

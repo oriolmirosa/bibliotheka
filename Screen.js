@@ -1,9 +1,19 @@
 import React from 'react'
 import Panel from './Panel'
 import Divisor from './Divisor'
+import styles from './styles.css'
+// const styles = require('./styles.css')
 
 const body = {
-  height: 100 + 'vh'
+  display: 'flex',
+  flex: 1,
+  flexDirection: 'row',
+  height: '100%',
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  outline: 'none',
+  overflow: 'hidden'
 }
 
 class Screen extends React.Component {
@@ -11,39 +21,38 @@ class Screen extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      x: 15,
-      dragOffsetLeft: 0,
-      dragOffsetRight: 0,
+      resize: false,
+      x: 0,
       widthL: 0,
       widthR: 0,
-      draggerWidth: 2,
-      draggerLeft: window.innerWidth / 2
+      draggerWidth: 10
     }
     this.dragStart = this.dragStart.bind(this)
-    this.getWidth = this.getWidth.bind(this)
+    // this.getWidth = this.getWidth.bind(this)
     this.drag = this.drag.bind(this)
     this.dragRelease = this.dragRelease.bind(this)
   }
 
   dragStart (e) {
+    document.addEventListener('mouseup', this.dragRelease, true)
+    document.addEventListener('mousemove', this.drag, true)
+    this.setState({resize: true})
     this.setState({x: e.clientX})
-    this.setState({dragOffsetLeft: this.state.widthL - this.state.x})
-    this.setState({dragOffsetRight: this.state.widthR - this.state.x})
   }
 
   drag (e) {
-    this.setState({x: e.clientX})
-    let tmpLeft = this.state.dragOffsetLeft + this.state.x
-    let tmpRight = this.state.dragOffsetRight - this.state.x
-    if (tmpLeft < 30 || tmpRight < 30) {
-      return
+    if (this.state.resize) {
+      this.setState({x: e.clientX})
+      this.setState({widthL: this.state.x - this.state.draggerWidth / 2})
+      this.setState({widthR: window.innerWidth - this.state.x + this.state.draggerWidth / 2 })
+      this.setState({x: e.clientX})
     }
-    this.setState({widthL: tmpLeft})
-    this.setState({widthR: tmpRight})
   }
 
   dragRelease (e) {
-    this.setState({x: e.clientX})
+    document.removeEventListener('mouseup', this.dragRelease)
+    document.removeEventListener('mousemove', this.drag)
+    this.setState({resize: false})
   }
 
   getWidth () {
@@ -56,8 +65,8 @@ class Screen extends React.Component {
 
   componentWillMount () {
     let windowWidth = window.innerWidth
-    this.setState({widthL: windowWidth / 2 - 1})
-    this.setState({widthR: windowWidth / 2 - 1})
+    this.setState({widthL: windowWidth / 2 - this.state.draggerWidth / 2})
+    this.setState({widthR: windowWidth / 2 - this.state.draggerWidth / 2})
   }
 
   componentDidMount () {
@@ -65,23 +74,26 @@ class Screen extends React.Component {
   }
 
   render () {
+    // let stylesDivisor = styles
+    // let divisorStyle = styles
     let styleL = {
-      display: 'inline-block',
+      // flex: 1,
+      // position: 'relative',
+      // outline: 'none',
       width: this.state.widthL + 'px',
       height: 100 + '%'
     }
     let styleR = {
-      display: 'inline-block',
+      // flex: 1,
+      // position: 'relative',
+      // outline: 'none',
       width: this.state.widthR + 'px',
       height: 100 + '%'
     }
 
     let draggerStyle = {
-      left: this.state.draggerLeft,
-      position: 'absolute',
-      width: this.state.draggerWidth,
+      width: 10 + 'px',
       height: 100 + '%',
-      verticalAlign: 'top',
       cursor: 'col-resize',
       backgroundColor: 'grey'
     }
@@ -89,14 +101,20 @@ class Screen extends React.Component {
     return (
 
       <div style={body}>
-        <span style={styleL} ref='panelL'>{this.state.widthL}</span>
-        <span
-          draggable='true'
+        <div style={styleL} ref='panelL'>
+          {this.state.widthL}
+        </div>
+        <Divisor
           style={draggerStyle}
+          className={styles.divisor}
           onMouseDown={this.dragStart}
-          onDrag={this.drag}
-          onMouseUp={this.dragRelease}></span>
-        <span style={styleR} ref='panelR'>{this.state.widthR}</span>
+          onMouseMove={this.drag}
+          onMouseUp={this.dragRelease}>
+          {this.props.children}
+        </Divisor>
+        <div style={styleR} ref='panelR'>
+          {this.state.widthR}
+        </div>
       </div>
     )
   }
