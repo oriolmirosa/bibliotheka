@@ -1,3 +1,15 @@
+.screen {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  outline: none;
+  overflow: hidden;
+}
+
 .divisor  {
   width: 10px;
   height: 100%;
