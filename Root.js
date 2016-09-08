@@ -21,6 +21,7 @@ class Root extends React.Component {
   }
 
   dragStart (e) {
+    this.unFocus()
     document.addEventListener('mouseup', this.dragRelease, true)
     document.addEventListener('mousemove', this.drag, true)
     this.setState({resize: true})
@@ -28,6 +29,7 @@ class Root extends React.Component {
   }
 
   drag (e) {
+    this.unFocus()
     if (this.state.resize) {
       this.setState({x: e.clientX})
       this.setState({widthL: this.state.x})
@@ -38,6 +40,14 @@ class Root extends React.Component {
     document.removeEventListener('mouseup', this.dragRelease)
     document.removeEventListener('mousemove', this.drag)
     this.setState({resize: false})
+  }
+
+  unFocus () {
+    if (document.selection) {
+      document.selection.empty()
+    } else {
+      window.getSelection().removeAllRanges()
+    }
   }
 
   render () {
