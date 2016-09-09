@@ -12,7 +12,7 @@ class Panel extends React.Component {
   render () {
     return (
       <div style={this.props.style || {}}>
-        {this.props.width}
+        {this.props.children}
       </div>
     )
   }
