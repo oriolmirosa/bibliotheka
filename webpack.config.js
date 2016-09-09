@@ -5,12 +5,12 @@ module.exports = {
     'webpack-dev-server/client?http://localhost:3333',
     'webpack/hot/only-dev-server',
     'react-hot-loader/patch',
-    './main.js'
+    './src/main.js'
   ],
   output: {
     path: '/',
-    filename: 'index.js',
-    publicPath: '/'
+    filename: 'bundle.js',
+    publicPath: '/public/js'
   },
   module: {
     loaders: [

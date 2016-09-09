@@ -1,8 +1,8 @@
 import React from 'react'
-import Screen from './Screen'
-import Panel from './Panel'
-import Divisor from './Divisor'
-import styles from './styles.css'
+import Screen from '../views/Screen'
+import Panel from '../views/Panel'
+import Divisor from '../views/Divisor'
+import styles from '../../../public/css/styles.css'
 
 // const styles = require('./styles.css')
 
