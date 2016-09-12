@@ -2,21 +2,24 @@ import React from 'react'
 import SplitPane from './SplitPane.js'
 
 class Root extends React.Component {
+
   render () {
     return (
       <div>
-        <SplitPane widthL={250}>
-          <div style={{display: 'flex'}}>
+        <SplitPane id={0}>
+          <div>
             Oriol rules!
           </div>
           <div>
-            Oriol rules!
+            Oriol rules la la!
           </div>
         </SplitPane>
-        <SplitPane widthL={750}>
-          <div />
+        <SplitPane id={1}>
           <div>
-            Yes he does!
+            La la!
+          </div>
+          <div>
+            Lo lo
           </div>
         </SplitPane>
       </div>
