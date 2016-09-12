@@ -73,8 +73,7 @@ class SplitPane extends React.Component {
     }
 
     const children = this.props.children
-    console.log('this.props.id in render: ' + this.props.id)
-    console.log('this.props.widthL in render: ' + this.props.widthL)
+
     return (
       <Screen className={styles.screen}>
         <Panel style={styleL}>
@@ -90,9 +89,6 @@ class SplitPane extends React.Component {
 }
 
 const mapStateToProps = function (store, ownProps) {
-  // console.log('store in mapStateToProps: ' + JSON.stringify(store, null, 4))
-  // console.log(JSON.stringify(ownProps, null, 4))
-
   return {
     x: store.bibliotheka[ownProps.id].x,
     resize: store.bibliotheka[ownProps.id].resize,

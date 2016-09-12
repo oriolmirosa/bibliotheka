@@ -21,9 +21,33 @@ const bibliotheka = function (state = initialState , action) {
     case NEW_X:
       return state.map((splitPane, index) => {
         if (index === action.id) {
+          let newX = action.x
+          let minDistance = 100
+          if (action.id === 0) {
+            if (newX <= minDistance) {
+              newX = minDistance
+            }
+            if (newX >= state[action.id + 1].widthL - minDistance) {
+              newX = state[action.id + 1].widthL - minDistance
+            }
+          } else if (action.id === state.length - 1) {
+            if (newX <= state[action.id - 1].widthL + minDistance) {
+              newX = state[action.id - 1].widthL + minDistance
+            }
+            if (newX >= window.innerWidth - minDistance) {
+              newX = window.innerWidth - minDistance
+            }
+          } else {
+            if (newX <= state[action.id - 1].widthL + minDistance) {
+              newX = state[action.id - 1].widthL + minDistance
+            }
+            if (newX >= state[action.id + 1].widthL - minDistance) {
+              newX = state[action.id + 1].widthL - minDistance
+            }
+          }
           return Object.assign({}, splitPane, {
-            x: action.x,
-            widthL: action.widthL
+            x: newX,
+            widthL: newX
           })
         }
         return splitPane
@@ -33,9 +57,7 @@ const bibliotheka = function (state = initialState , action) {
       return state.map((splitPane, index) => {
         if (index === action.id) {
           return Object.assign({}, splitPane, {
-            resize: action.resize,
-            x: action.x,
-            widthL: action.widthL
+            resize: action.resize
           })
         }
         return splitPane

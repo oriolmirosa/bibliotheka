@@ -8,18 +8,16 @@ class Root extends React.Component {
       <div>
         <SplitPane id={0}>
           <div>
-            Oriol rules!
+            Left pane!
           </div>
           <div>
-            Oriol rules la la!
+            Middle pane!
           </div>
         </SplitPane>
         <SplitPane id={1}>
+          <div/>
           <div>
-            La la!
-          </div>
-          <div>
-            Lo lo
+            Right pane!
           </div>
         </SplitPane>
       </div>
