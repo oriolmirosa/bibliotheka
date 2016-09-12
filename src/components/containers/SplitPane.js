@@ -17,6 +17,12 @@ class SplitPane extends React.Component {
   }
 
   dragStart (e) {
+    let position
+    if (this.props.orientation === 'horizontal') {
+      position = e.clientY
+    } else {
+      position = e.clientX
+    }
     this.unFocus()
     document.addEventListener('mouseup', this.dragRelease, true)
     document.addEventListener('mousemove', this.drag, true)
@@ -24,19 +30,25 @@ class SplitPane extends React.Component {
       type: 'RESIZE_TOGGLE',
       id: this.props.id,
       resize: true,
-      x: e.clientX,
-      widthL: e.clientX
+      x: position,
+      widthL: position
     })
   }
 
   drag (e) {
+    let position
+    if (this.props.orientation === 'horizontal') {
+      position = e.clientY
+    } else {
+      position = e.clientX
+    }
     this.unFocus()
     if (this.props.resize) {
       store.dispatch({
         type: 'NEW_X',
         id: this.props.id,
-        x: e.clientX,
-        widthL: e.clientX
+        x: position,
+        widthL: position
       })
     }
   }
@@ -61,25 +73,40 @@ class SplitPane extends React.Component {
   }
 
   render () {
-    let styleL = {
+    let styleLVert = {
       width: this.props.widthL + 'px',
       position: 'relative',
       outline: 'none'
     }
 
-    let styleR = {
-      position: 'flex',
+    let styleLHoriz = {
+      width: this.props.widthL + 'px',
+      position: 'relative',
       outline: 'none'
     }
 
+    let styleL
+    if (this.props.orientation === 'horizontal') {
+      styleL = styleLHoriz
+    } else {
+      styleL = styleLVert
+    }
+
+    let styleR = {
+      position: 'flex',
+      outline: 'none'
+    // width: 100 + '%'
+    }
+
     const children = this.props.children
+    const classes = [styles.divisor, styles.divisor.vertical]
 
     return (
-      <Screen className={styles.screen}>
+      <Screen className={styles.screenHor}>
         <Panel style={styleL}>
           {children[0]}
         </Panel>
-        <Divisor className={styles.divisor} mousePushedDown={this.dragStart} />
+        <Divisor className={styles.divisorVer} mousePushedDown={this.dragStart} />
         <Panel style={styleR}>
           {children[1]}
         </Panel>

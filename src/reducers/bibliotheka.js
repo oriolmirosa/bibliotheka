@@ -5,13 +5,13 @@ const initialState = [
     id: 0,
     x: 0,
     resize: false,
-    widthL: 250
+    widthL: 190
   },
   {
     id: 1,
     x: 0,
     resize: false,
-    widthL: 500
+    widthL: window.innerWidth - 380
   }
 ]
 
