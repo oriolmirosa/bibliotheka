@@ -96,7 +96,7 @@ class Root extends React.Component {
 
     return (
       <div className={styles.main}>
-        <Panel size={this.props.size[0] || 100} orientation='horizontal'>
+        <Panel size={this.props.size[0]} orientation='horizontal'>
           <div>
             <ToggleButton hidePanel={this.panelHide} panelId={1} panelName='Left' />
             <ToggleButton hidePanel={this.panelHide} panelId={2} panelName='Main' />
@@ -106,27 +106,31 @@ class Root extends React.Component {
         </Panel>
         <Divisor divisor={0} orientation='horizontal' mousePushedDown={this.dragStart} />
         <div className={styles.screenHor}>
-          <Panel visible={this.props.visible[1]} size={this.props.size[1] || 190} orientation='vertical'>
+          <Panel visible={this.props.visible[1]} size={this.props.size[1]} orientation='vertical'>
             <div>
               Left pane!
             </div>
           </Panel>
           <Divisor divisor={1} display={this.props.visible[1]} orientation='vertical' mousePushedDown={this.dragStart} />
           <div className={styles.screenVer}>
-            <Panel visible={this.props.visible[2]} size={this.props.size[2] - this.props.size[0] || 300} orientation='horizontal'>
-              <div>
-                Main pane!
-              </div>
-            </Panel>
-            <Divisor divisor={2} display={this.props.visible[2] === 'none' || this.props.visible[3] === 'none' ? 'none' : 'block'} orientation='horizontal' mousePushedDown={this.dragStart} />
-            <Panel visible={this.props.visible[3]} orientation='horizontal'>
-              <div>
-                PDF!
-              </div>
-            </Panel>
+            <div style={{height: window.innerHeight - this.props.size[0]}}>
+              <Panel visible={this.props.visible[2]} size={this.props.size[2]} orientation='horizontal'>
+                <div>
+                  Main pane!
+                  <img src='../../../public/img/p1010001.jpg' alt='' style={{width: 100 + '%'}} />
+                </div>
+              </Panel>
+              <Divisor divisor={2} display={this.props.visible[2] === 'none' || this.props.visible[3] === 'none' ? 'none' : 'block'} orientation='horizontal' mousePushedDown={this.dragStart} />
+              <Panel visible={this.props.visible[3]} size={this.props.size[3]} orientation='horizontal'>
+                <div>
+                  PDF!
+                  <img src='../../../public/img/p1010001.jpg' alt='' style={{width: 100 + '%', height: 100 + '%'}} />
+                </div>
+              </Panel>
+            </div>
           </div>
           <Divisor divisor={4} display={this.props.visible[4]} orientation='vertical' mousePushedDown={this.dragStart} />
-          <Panel visible={this.props.visible[4]} size={window.innerWidth - this.props.size[4] || 400} orientation='vertical'>
+          <Panel visible={this.props.visible[4]} size={window.innerWidth - this.props.size[4]} orientation='vertical'>
             <div>
               Right pane!
             </div>

@@ -19,14 +19,14 @@ const initialState = [
     panel: 2,
     position: 0,
     resize: false,
-    size: 50 + '%',
+    size: 300,
     visible: 'block'
   },
   {
     panel: 3,
     position: 0,
     resize: false,
-    size: 50 + '%',
+    size: window.innerHeight - 400,
     visible: 'block'
   },
   {
@@ -44,7 +44,12 @@ const bibliotheka = function (state = initialState , action) {
     case NEW_POSITION:
       return state.map((panel, index) => {
         if (index === action.divisor) {
-          let newSize = action.position
+          let newSize
+          if (index === 2) {
+            newSize = action.position - state[0].size
+          } else {
+            newSize = action.position
+          }
           // let minDistance = 100
           // if (action.id === 0) {
           //   if (newSize <= minDistance) {
@@ -72,7 +77,12 @@ const bibliotheka = function (state = initialState , action) {
             size: newSize
           })
         }
-        // if (index === action.divisor + 1) {
+        if (index === 3 && action.divisor === 2) {
+          let newSize3 = window.innerHeight - action.position
+          return Object.assign({}, panel, {
+            size: newSize3
+          })
+        }
         return panel
       })
 

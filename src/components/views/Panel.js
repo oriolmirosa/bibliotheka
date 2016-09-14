@@ -7,14 +7,16 @@ class Panel extends React.Component {
       width: this.props.size,
       position: 'relative',
       outline: 'none',
-      display: this.props.visible
+      display: this.props.visible,
+      overflowY: 'scroll'
     }
 
     let styleLHoriz = {
       height: this.props.size,
       position: 'relative',
       outline: 'none',
-      display: this.props.visible
+      display: this.props.visible,
+      overflowY: 'scroll'
     }
 
     let styleL
