@@ -1,3 +1,6 @@
-export const NEW_X = 'NEW_X'
+export const NEW_POSITION = 'NEW_POSITION'
 
 export const RESIZE_TOGGLE = 'RESIZE_TOGGLE'
+
+export const VISIBLE_TOGGLE = 'VISIBLE_TOGGLE'
+

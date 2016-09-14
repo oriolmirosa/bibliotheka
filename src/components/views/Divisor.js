@@ -1,10 +1,18 @@
 import React from 'react'
+import styles from '../../../public/css/styles.css'
 
 class Divisor extends React.Component {
 
   render () {
+    let divisorClass
+    if (this.props.orientation === 'vertical') {
+      divisorClass = styles.divisorVer
+    } else {
+      divisorClass = styles.divisorHor
+    }
+
     return (
-      <div className={this.props.className} onMouseDown={this.props.mousePushedDown} />
+      <div style={{display: this.props.display}} className={divisorClass} onMouseDown={(e) => this.props.mousePushedDown(e, this.props.divisor, this.props.orientation)} />
     )
   }
 }

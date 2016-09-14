@@ -1,17 +1,31 @@
 import React from 'react'
 
-// let panel = {
-//   display: 'inline-block',
-//   width: 49.5 + '%',
-//   height: 100 + '%',
-//   backgroundColor: 'white'
-// }
-
 class Panel extends React.Component {
 
   render () {
+    let styleLVert = {
+      width: this.props.size,
+      position: 'relative',
+      outline: 'none',
+      display: this.props.visible
+    }
+
+    let styleLHoriz = {
+      height: this.props.size,
+      position: 'relative',
+      outline: 'none',
+      display: this.props.visible
+    }
+
+    let styleL
+    if (this.props.orientation === 'horizontal') {
+      styleL = styleLHoriz
+    } else {
+      styleL = styleLVert
+    }
+
     return (
-      <div style={this.props.style || {}}>
+      <div style={styleL || {}}>
         {this.props.children}
       </div>
     )

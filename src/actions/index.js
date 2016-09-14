@@ -1,13 +1,13 @@
 import * as types from '../constants/ActionTypes'
 
-export function newX (id, x) {
-  return {type: types.NEW_X, id: id, x: x}
+export function newPosition (divisor, position, orientation) {
+  return {type: types.NEW_POSITION, divisor: divisor, orientation: orientation, position: position}
 }
 
-export function resizeToggle (id, resize) {
-  return {type: types.RESIZE_TOGGLE, id: id, resize: resize}
+export function resizeToggle (divisor, orientation, resize, position) {
+  return {type: types.RESIZE_TOGGLE, divisor: divisor, orientation: orientation, resize: resize, position: position}
 }
 
-export function newWidthL (id, widthL) {
-  return {type: types.NEW_WIDTHL, id: id, widthL: widthL}
+export function visibleToggle (panel, visible) {
+  return {type: types.VISIBLE_TOGGLE, panel: panel, visible: visible}
 }

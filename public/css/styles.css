@@ -4,13 +4,37 @@
   box-sizing: border-box;
 }
 
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  outline: none;
+  overflow: hidden;
+}
+
+.middlePanel {
+  
+  height: 100%;
+  width: 100%;
+  position: relative;
+  left: 0;
+  right: 0;
+  outline: none;
+  overflow: hidden;
+}
+
 .screenHor {
   display: flex;
   flex: 1;
   flex-direction: row;
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: relative;
   left: 0;
   right: 0;
   outline: none;
@@ -23,9 +47,22 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: relative;
   left: 0;
   right: 0;
+  outline: none;
+  overflow: hidden;
+}
+
+.screenVer2 {
+  /*display: flex;
+  flex: 1;
+  flex-direction: column;*/
+  height: 100%;
+  width: 100%;
+  position: relative;
+  /*left: 0;
+  right: 0;*/
   outline: none;
   overflow: hidden;
 }

@@ -1,66 +1,99 @@
-import { NEW_X, RESIZE_TOGGLE } from '../constants/ActionTypes'
+import { NEW_POSITION, RESIZE_TOGGLE, VISIBLE_TOGGLE } from '../constants/ActionTypes'
 
 const initialState = [
   {
-    id: 0,
-    x: 0,
+    panel: 0,
+    position: 0,
     resize: false,
-    widthL: 190
+    size: 100,
+    visible: 'block'
   },
   {
-    id: 1,
-    x: 0,
+    panel: 1,
+    position: 0,
     resize: false,
-    widthL: window.innerWidth - 380
+    size: 250,
+    visible: 'block'
+  },
+  {
+    panel: 2,
+    position: 0,
+    resize: false,
+    size: 50 + '%',
+    visible: 'block'
+  },
+  {
+    panel: 3,
+    position: 0,
+    resize: false,
+    size: 50 + '%',
+    visible: 'block'
+  },
+  {
+    panel: 4,
+    position: 0,
+    resize: false,
+    size: window.innerWidth - 400,
+    visible: 'block'
   }
 ]
 
 const bibliotheka = function (state = initialState , action) {
-  // console.log(JSON.stringify(newState, null, 4))
+  console.log('action.divisor: ' + action.divisor)
   switch (action.type) {
-    case NEW_X:
-      return state.map((splitPane, index) => {
-        if (index === action.id) {
-          let newX = action.x
-          let minDistance = 100
-          if (action.id === 0) {
-            if (newX <= minDistance) {
-              newX = minDistance
-            }
-            if (newX >= state[action.id + 1].widthL - minDistance) {
-              newX = state[action.id + 1].widthL - minDistance
-            }
-          } else if (action.id === state.length - 1) {
-            if (newX <= state[action.id - 1].widthL + minDistance) {
-              newX = state[action.id - 1].widthL + minDistance
-            }
-            if (newX >= window.innerWidth - minDistance) {
-              newX = window.innerWidth - minDistance
-            }
-          } else {
-            if (newX <= state[action.id - 1].widthL + minDistance) {
-              newX = state[action.id - 1].widthL + minDistance
-            }
-            if (newX >= state[action.id + 1].widthL - minDistance) {
-              newX = state[action.id + 1].widthL - minDistance
-            }
-          }
-          return Object.assign({}, splitPane, {
-            x: newX,
-            widthL: newX
+    case NEW_POSITION:
+      return state.map((panel, index) => {
+        if (index === action.divisor) {
+          let newSize = action.position
+          // let minDistance = 100
+          // if (action.id === 0) {
+          //   if (newSize <= minDistance) {
+          //     newSize = minDistance
+          //   }
+          //   if (newSize >= state[action.id + 1].widthL - minDistance) {
+          //     newSize = state[action.id + 1].widthL - minDistance
+          //   }
+          // } else if (action.id === state.length - 1) {
+          //   if (newSize <= state[action.id - 1].widthL + minDistance) {
+          //     newSize = state[action.id - 1].widthL + minDistance
+          //   }
+          //   if (newSize >= window.innerWidth - minDistance) {
+          //     newSize = window.innerWidth - minDistance
+          //   }
+          // } else {
+          //   if (newSize <= state[action.id - 1].widthL + minDistance) {
+          //     newSize = state[action.id - 1].widthL + minDistance
+          //   }
+          //   if (newSize >= state[action.id + 1].widthL - minDistance) {
+          //     newSize = state[action.id + 1].widthL - minDistance
+          //   }
+          // }
+          return Object.assign({}, panel, {
+            size: newSize
           })
         }
-        return splitPane
+        // if (index === action.divisor + 1) {
+        return panel
       })
 
     case RESIZE_TOGGLE:
-      return state.map((splitPane, index) => {
-        if (index === action.id) {
-          return Object.assign({}, splitPane, {
+      return state.map((panel, index) => {
+        if (index === action.divisor) {
+          return Object.assign({}, panel, {
             resize: action.resize
           })
         }
-        return splitPane
+        return panel
+      })
+
+    case VISIBLE_TOGGLE:
+      return state.map((panel, index) => {
+        if (index === action.panel) {
+          return Object.assign({}, panel, {
+            visible: action.visible
+          })
+        }
+        return panel
       })
 
     default:
