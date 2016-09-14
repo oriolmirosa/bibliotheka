@@ -19,14 +19,14 @@ const initialState = [
     panel: 2,
     position: 0,
     resize: false,
-    size: 300,
+    size: 50 + '%',
     visible: 'block'
   },
   {
     panel: 3,
     position: 0,
     resize: false,
-    size: window.innerHeight - 400,
+    size: 50 + '%',
     visible: 'block'
   },
   {
@@ -38,7 +38,7 @@ const initialState = [
   }
 ]
 
-const bibliotheka = function (state = initialState , action) {
+const bibliotheka = function (state = initialState, action) {
   console.log('action.divisor: ' + action.divisor)
   switch (action.type) {
     case NEW_POSITION:
@@ -46,7 +46,11 @@ const bibliotheka = function (state = initialState , action) {
         if (index === action.divisor) {
           let newSize
           if (index === 2) {
-            newSize = action.position - state[0].size
+            if (state[3].visible === 'none') {
+              newSize = window.innerHeight - state[0].size
+            } else {
+              newSize = action.position - state[0].size
+            }
           } else {
             newSize = action.position
           }
@@ -101,6 +105,22 @@ const bibliotheka = function (state = initialState , action) {
         if (index === action.panel) {
           return Object.assign({}, panel, {
             visible: action.visible
+          })
+        }
+        if (index === 2 && action.panel === 3 & action.visible === 'none') {
+          return Object.assign({}, panel, {
+            size: window.innerHeight - state[0].size,
+            position: state[2].size
+          })
+        }
+        if (index === 3 && action.panel === 2 & action.visible === 'none') {
+          return Object.assign({}, panel, {
+            size: window.innerHeight - state[0].size
+          })
+        }
+        if (index === 2 && action.panel === 3 & action.visible === 'block') {
+          return Object.assign({}, panel, {
+            size: state[2].position
           })
         }
         return panel
