@@ -3,15 +3,11 @@ import ReactDOM from 'react-dom'
 import pdfjsLib from 'pdfjs-dist'
 import { PDFJS } from 'pdfjs-dist/web/pdf_viewer'
 import styles from 'pdfjs-dist/web/pdf_viewer.css'
-// import { TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer'
-
-// let lala = require('pdfjs-dist/web/pdf_viewer')
 
 class Viewer extends Component {
   constructor (props) {
     super(props)
     this.loadPdf = this.loadPdf.bind(this)
-    // this.renderPdf = this.renderPdf.bind(this)
   }
 
   componentDidMount () {
@@ -19,35 +15,17 @@ class Viewer extends Component {
   }
 
   loadPdf () {
-
-    // console.log('typeof TextLayerBuilder: ' + typeof pdfjsWeb)
-    // console.log('TextLayerBuilder: ' + JSON.stringify(pdfjsWeb))
-
     let pdfPath = '../../../data/PDF/2168444.pdf'
 
     pdfjsLib.PDFJS.workerSrc = '../../../build/js/pdf.worker.bundle.js'
-
-    // const reader = new FileReader()
-    // reader.readAsArrayBuffer(pdfPath)
-    // // reader.onloadend = () =>
-    // pdfjsLib.PDFJS.getDocument(new Uint8Array(pdfPath))
-    //   .then(function (pdf) {
-    //     this.renderPdf(pdf)
-    //   })
-    // var loadingTask = pdfjsLib.getDocument(pdfPath)
-    // loadingTask.promise.then(function (pdfDocument) {
-    //   return pdfDocument.getPage(1).then(this.renderPdf(pdfPage))
 
     let container = ReactDOM.findDOMNode(this.container)
     let canvas = ReactDOM.findDOMNode(this.canvas)
     let textLayerDiv = ReactDOM.findDOMNode(this.textLayerDiv)
     textLayerDiv.setAttribute('class', styles.textLayer)
 
-    let loadingTask = pdfjsLib.getDocument(pdfPath)
-    loadingTask.promise.then(function (pdfDocument) {
-      // Request a first page
+    pdfjsLib.getDocument(pdfPath).then(function (pdfDocument) {
       return pdfDocument.getPage(1).then(function (pdfPage) {
-        
         let scaleForWidth = container.offsetWidth / pdfPage.getViewport(1).width
         let viewport = pdfPage.getViewport(scaleForWidth)
         canvas.width = viewport.width
@@ -105,7 +83,5 @@ class Viewer extends Component {
     )
   }
 }
-
-Viewer.defaultProps = {scale: 0.5}
 
 export default Viewer
