@@ -4,6 +4,8 @@ import store from '../../store'
 import Panel from '../views/Panel'
 import Divisor from '../views/Divisor'
 import ToggleButton from '../views/ToggleButton'
+import ListView from '../views/ListView.jsx'
+import Viewer from '../views/Viewer.jsx'
 import styles from '../../../public/css/styles.css'
 
 class Root extends React.Component {
@@ -116,15 +118,13 @@ class Root extends React.Component {
             <div style={{height: window.innerHeight - this.props.size[0]}}>
               <Panel visible={this.props.visible[2]} size={this.props.size[2]} orientation='horizontal'>
                 <div>
-                  Main pane!
-                  <img src='../../../public/img/p1010001.jpg' alt='' style={{width: 100 + '%'}} />
+                  <ListView />
                 </div>
               </Panel>
               <Divisor divisor={2} display={this.props.visible[2] === 'none' || this.props.visible[3] === 'none' ? 'none' : 'block'} orientation='horizontal' mousePushedDown={this.dragStart} />
               <Panel visible={this.props.visible[3]} size={this.props.size[3]} orientation='horizontal'>
                 <div>
-                  PDF!
-                  <img src='../../../public/img/p1010001.jpg' alt='' style={{width: 100 + '%', height: 100 + '%'}} />
+                  <Viewer />
                 </div>
               </Panel>
             </div>
