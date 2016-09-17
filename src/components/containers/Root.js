@@ -123,9 +123,7 @@ class Root extends React.Component {
               </Panel>
               <Divisor divisor={2} display={this.props.visible[2] === 'none' || this.props.visible[3] === 'none' ? 'none' : 'block'} orientation='horizontal' mousePushedDown={this.dragStart} />
               <Panel visible={this.props.visible[3]} size={this.props.size[3]} orientation='horizontal'>
-                <div>
-                  <Viewer />
-                </div>
+                <Viewer />
               </Panel>
             </div>
           </div>
