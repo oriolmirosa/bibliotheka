@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import pdfjsLib from 'pdfjs-dist'
-import { PDFJS, getOutputScale } from 'pdfjs-dist/web/pdf_viewer'
+import { PDFJS } from 'pdfjs-dist/web/pdf_viewer'
 import styles from 'pdfjs-dist/web/pdf_viewer.css'
 // import { TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer'
 
@@ -48,9 +48,24 @@ class Viewer extends Component {
       // Request a first page
       return pdfDocument.getPage(1).then(function (pdfPage) {
         // Display page on the existing canvas with 100% scale.
-        // 
+        
+        function getOutputScale () {
+          var pixelRatio = 'devicePixelRatio' in window ? window.devicePixelRatio : 1
+          return {
+            sx: pixelRatio,
+            sy: pixelRatio,
+            scaled: pixelRatio !== 1
+          }
+        }
 
-        var viewport = pdfPage.getViewport(container.offsetWidth / pdfPage.getViewport(1.0).width)
+        var outputScale = getOutputScale()
+        console.log(`outputScale: ${JSON.stringify(outputScale)}`)
+        let viewportScale
+        if (outputScale.scaled) {
+          viewportScale = outputScale.sx || 1
+        }
+
+        var viewport = pdfPage.getViewport(container.offsetWidth / pdfPage.getViewport(1 / viewportScale).width)
         console.log(`viewport: ${JSON.stringify(viewport)}`)
         canvas.width = viewport.width
         canvas.height = viewport.height
@@ -62,27 +77,18 @@ class Viewer extends Component {
         var ctx = canvas.getContext('2d')
         console.log(`context first: ${JSON.stringify(ctx)}`)
 
-        function getOutputScale () {
-          var pixelRatio = 'devicePixelRatio' in window ? window.devicePixelRatio : 1
-          return {
-            sx: pixelRatio,
-            sy: pixelRatio,
-            scaled: pixelRatio !== 1
+
+        if (outputScale.scaled) {
+          var cssScale = 'scale(' + (1 / outputScale.sx) + ', ' + (1 / outputScale.sy) + ')'
+          console.log(`cssScale: ${cssScale}`)
+          pdfjsLib.CustomStyle.setProp('transform', canvas, cssScale)
+          pdfjsLib.CustomStyle.setProp('transformOrigin', canvas, '0% 0%')
+
+          if (textLayerDiv) {
+            pdfjsLib.CustomStyle.setProp('transform', textLayerDiv, cssScale)
+            pdfjsLib.CustomStyle.setProp('transformOrigin', textLayerDiv, '0% 0%')
           }
         }
-
-        var outputScale = getOutputScale()
-        // if (outputScale.scaled) {
-        //   var cssScale = 'scale(' + (1 / outputScale.sx) + ', ' + (1 / outputScale.sy) + ')'
-        //   console.log(`cssScale: ${cssScale}`)
-        //   pdfjsLib.CustomStyle.setProp('transform', canvas, cssScale)
-        //   pdfjsLib.CustomStyle.setProp('transformOrigin', canvas, '0% 0%')
-
-        //   // if (textLayerDiv) {
-        //   //   pdfjsLib.CustomStyle.setProp('transform', textLayerDiv, cssScale)
-        //   //   pdfjsLib.CustomStyle.setProp('transformOrigin', textLayerDiv, '0% 0%')
-        //   // }
-        // }
 
         // container.style.height = canvas.height / 2
         // container.style.width = canvas.width / 2
@@ -135,6 +141,6 @@ class Viewer extends Component {
   }
 }
 
-Viewer.defaultProps = {scale: 1.2}
+Viewer.defaultProps = {scale: 0.5}
 
 export default Viewer
