@@ -8,77 +8,105 @@ class Viewer extends Component {
   constructor (props) {
     super(props)
     this.loadPdf = this.loadPdf.bind(this)
+    this.loadPage = this.loadPage.bind(this)
+    this.renderPage = this.renderPage.bind(this)
+
+    this.state = {}
   }
 
   componentDidMount () {
-    this.loadPdf()
+    let pdfPath = '../../../data/PDF/2168444.pdf'
+    pdfjsLib.PDFJS.workerSrc = '../../../build/js/pdf.worker.bundle.js'
+    this.loadPdf(pdfPath)
   }
 
-  loadPdf () {
-    let pdfPath = '../../../data/PDF/2168444.pdf'
+  loadPdf (pdfPath) {
+    pdfjsLib.getDocument(pdfPath).then(function (pdf) {
+      this.setState({pdf: pdf})
+      this.setState({numPages: pdf.numPages})
+      this.loadPage(pdf, 1)
+    }.bind(this))
+  }
 
-    pdfjsLib.PDFJS.workerSrc = '../../../build/js/pdf.worker.bundle.js'
+  loadPage (pdf, pageNumber) {
+    pdf.getPage(pageNumber).then(function (page) {
+      this.setState({page: page})
+      this.renderPage(page, pageNumber)
+      if (pageNumber < pdf.numPages) {
+        this.loadPage(pdf, pageNumber + 1)
+      }
+    }.bind(this))
+  }
 
-    let container = ReactDOM.findDOMNode(this.container)
-    let canvas = ReactDOM.findDOMNode(this.canvas)
-    let textLayerDiv = ReactDOM.findDOMNode(this.textLayerDiv)
+  renderPage (pdfPage, pageNumber) {
+    let container = ReactDOM.findDOMNode(this.refs.container)
+    let canvas = ReactDOM.findDOMNode(this.refs['canvas'.concat(pageNumber)])
+    let textLayerDiv = ReactDOM.findDOMNode(this.refs['textLayerDiv'.concat(pageNumber)])
     textLayerDiv.setAttribute('class', styles.textLayer)
 
-    pdfjsLib.getDocument(pdfPath).then(function (pdfDocument) {
-      return pdfDocument.getPage(1).then(function (pdfPage) {
-        let scaleForWidth = container.offsetWidth / pdfPage.getViewport(1).width
-        let viewport = pdfPage.getViewport(scaleForWidth)
-        canvas.width = viewport.width
-        canvas.height = viewport.height
-        let ctx = canvas.getContext('2d')
+    let scaleForWidth = container.offsetWidth / pdfPage.getViewport(1).width
+    let viewport = pdfPage.getViewport(scaleForWidth)
+    canvas.width = viewport.width
+    canvas.height = viewport.height
+    let ctx = canvas.getContext('2d')
 
-        let devicePixelRatio = window.devicePixelRatio || 1
-        let backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
-          ctx.mozBackingStorePixelRatio ||
-          ctx.msBackingStorePixelRatio ||
-          ctx.oBackingStorePixelRatio ||
-          ctx.backingStorePixelRatio || 1
+    let devicePixelRatio = window.devicePixelRatio || 1
+    let backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+      ctx.mozBackingStorePixelRatio ||
+      ctx.msBackingStorePixelRatio ||
+      ctx.oBackingStorePixelRatio ||
+      ctx.backingStorePixelRatio || 1
 
-        let ratio = devicePixelRatio / backingStoreRatio
+    let ratio = devicePixelRatio / backingStoreRatio
 
-        var oldWidth = canvas.width
-        var oldHeight = canvas.height
+    var oldWidth = canvas.width
+    var oldHeight = canvas.height
 
-        canvas.width = oldWidth * ratio
-        canvas.height = oldHeight * ratio
+    canvas.width = oldWidth * ratio
+    canvas.height = oldHeight * ratio
 
-        canvas.style.width = oldWidth + 'px'
-        canvas.style.height = oldHeight + 'px'
+    canvas.style.width = oldWidth + 'px'
+    canvas.style.height = oldHeight + 'px'
 
-        ctx.scale(ratio, ratio)
+    ctx.scale(ratio, ratio)
 
-        let renderTask = pdfPage.render({
-          canvasContext: ctx,
-          viewport: viewport
-        }).then(function () {
-          return pdfPage.getTextContent()
-        }).then(function (textContent) {
-          let textLayer = new PDFJS.TextLayerBuilder({
-            textLayerDiv: textLayerDiv,
-            pageIndex: 0, // page_number - 1
-            viewport: viewport
-          })
-
-          textLayer.setTextContent(textContent)
-          textLayer.render()
-        })
-        return renderTask.promise
+    pdfPage.render({
+      canvasContext: ctx,
+      viewport: viewport
+    }).then(function () {
+      return pdfPage.getTextContent()
+    }).then(function (textContent) {
+      let textLayer = new PDFJS.TextLayerBuilder({
+        textLayerDiv: textLayerDiv,
+        pageIndex: pageNumber - 1,
+        viewport: viewport
       })
+
+      textLayer.setTextContent(textContent)
+      textLayer.render()
     }).catch(function (reason) {
       console.error('Error: ' + reason)
     })
   }
 
   render () {
+    let numbers = []
+    for (var i = 1; i <= this.state.numPages; i++) {
+      numbers.push(i)
+    }
+    let canvasses = numbers.map(function (num) {
+      return (
+        <div style={{position: 'relative'}}>
+          <canvas key={num} ref={'canvas' + num} />
+          <div key={'div' + num} ref={'textLayerDiv' + num} />
+          <div key={'separator' + num} style={{height: 10 + 'px', backgroundColor: 'grey'}} />
+        </div>
+      )
+    })
+
     return (
-      <div ref={(ref) => this.container = ref} >
-        <canvas ref={(ref) => this.canvas = ref} />
-        <div ref={(ref) => this.textLayerDiv = ref} />
+      <div ref='container'>
+        {canvasses}
       </div>
     )
   }
