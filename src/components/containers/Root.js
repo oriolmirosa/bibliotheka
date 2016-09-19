@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import store from '../../store'
+import PanelContainer from '../views/PanelContainer.jsx'
 import Panel from '../views/Panel'
 import Divisor from '../views/Divisor'
 import ToggleButton from '../views/ToggleButton'
@@ -26,7 +27,6 @@ class Root extends React.Component {
     } else {
       position = e.clientX
     }
-    console.log('position: ' + position)
     this.unFocus()
 
     store.dispatch({
@@ -93,9 +93,6 @@ class Root extends React.Component {
   }
 
   render () {
-    console.log('this.props.size: ' + this.props.size)
-    console.log('this.props.resize: ' + this.props.resize)
-
     return (
       <div className={styles.main}>
         <Panel size={this.props.size[0]} orientation='horizontal'>
@@ -115,7 +112,7 @@ class Root extends React.Component {
           </Panel>
           <Divisor divisor={1} display={this.props.visible[1]} orientation='vertical' mousePushedDown={this.dragStart} />
           <div className={styles.screenVer}>
-            <div style={{height: window.innerHeight - this.props.size[0]}}>
+            <PanelContainer height={window.innerHeight - this.props.size[0]}>
               <Panel visible={this.props.visible[2]} size={this.props.size[2]} orientation='horizontal'>
                 <div>
                   <ListView />
@@ -125,7 +122,7 @@ class Root extends React.Component {
               <Panel visible={this.props.visible[3]} size={this.props.size[3]} orientation='horizontal'>
                 <Viewer />
               </Panel>
-            </div>
+            </PanelContainer>
           </div>
           <Divisor divisor={4} display={this.props.visible[4]} orientation='vertical' mousePushedDown={this.dragStart} />
           <Panel visible={this.props.visible[4]} size={window.innerWidth - this.props.size[4]} orientation='vertical'>

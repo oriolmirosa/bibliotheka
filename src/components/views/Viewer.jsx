@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import pdfjsLib from 'pdfjs-dist'
 import { PDFJS } from 'pdfjs-dist/web/pdf_viewer'
 import styles from 'pdfjs-dist/web/pdf_viewer.css'
+import { connect } from 'react-redux'
+import store from '../../store'
 
 class Viewer extends Component {
   constructor (props) {
@@ -46,6 +48,7 @@ class Viewer extends Component {
 
     let scaleForWidth = container.offsetWidth / pdfPage.getViewport(1).width
     let viewport = pdfPage.getViewport(scaleForWidth)
+    console.log(`this.props.width: ${this.props.width}`)
     canvas.width = viewport.width
     canvas.height = viewport.height
     let ctx = canvas.getContext('2d')
@@ -97,7 +100,7 @@ class Viewer extends Component {
     let canvasses = numbers.map(function (num) {
       return (
         <div style={{position: 'relative'}}>
-          <canvas key={num} ref={'canvas' + num} />
+          <canvas key={'canvas' + num} ref={'canvas' + num} />
           <div key={'div' + num} ref={'textLayerDiv' + num} />
           <div key={'separator' + num} style={{height: 10 + 'px', backgroundColor: 'grey'}} />
         </div>
@@ -112,4 +115,8 @@ class Viewer extends Component {
   }
 }
 
-export default Viewer
+const mapStateToProps = function (store) {
+  return {width: store.bibliotheka[2].size}
+}
+
+export default connect(mapStateToProps)(Viewer)
