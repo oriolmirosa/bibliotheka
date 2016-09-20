@@ -20,6 +20,17 @@ class Viewer extends Component {
     let pdfPath = '../../../data/PDF/2168444.pdf'
     pdfjsLib.PDFJS.workerSrc = '../../../build/js/pdf.worker.bundle.js'
     this.loadPdf(pdfPath)
+
+    let container = ReactDOM.findDOMNode(this.refs.container)
+    container.addEventListener('resize', this.resizePdf)
+  }
+
+  resizePdf () {
+    console.log(`resizePdf triggered`)
+    for (let i = 1; i < this.state.pdf.numPages; i++) {
+      let canvas = ReactDOM.findDOMNode(this.refs['canvas'.concat(i)])
+      canvas.width = this.props.width
+    }
   }
 
   loadPdf (pdfPath) {
@@ -48,7 +59,7 @@ class Viewer extends Component {
 
     let scaleForWidth = container.offsetWidth / pdfPage.getViewport(1).width
     let viewport = pdfPage.getViewport(scaleForWidth)
-    console.log(`this.props.width: ${this.props.width}`)
+    // console.log(`this.props.width: ${this.props.width}`)
     canvas.width = viewport.width
     canvas.height = viewport.height
     let ctx = canvas.getContext('2d')
@@ -70,6 +81,9 @@ class Viewer extends Component {
 
     canvas.style.width = oldWidth + 'px'
     canvas.style.height = oldHeight + 'px'
+
+    let canvasSizeRatio = canvas.height / canvas.width
+    this.setState({canvasSizeRatio: canvasSizeRatio})
 
     ctx.scale(ratio, ratio)
 
@@ -93,6 +107,9 @@ class Viewer extends Component {
   }
 
   render () {
+    console.log(`this.props.widthPdf: ${this.props.widthPdf}`)
+    let width = this.props.widthPdf
+    let height = width * this.state.canvasSizeRatio
     let numbers = []
     for (var i = 1; i <= this.state.numPages; i++) {
       numbers.push(i)
@@ -100,8 +117,8 @@ class Viewer extends Component {
     let canvasses = numbers.map(function (num) {
       return (
         <div style={{position: 'relative'}}>
-          <canvas key={'canvas' + num} ref={'canvas' + num} />
-          <div key={'div' + num} ref={'textLayerDiv' + num} />
+          <canvas key={'canvas' + num} style={{width: width, height: height}} ref={'canvas' + num} />
+          <div key={'div' + num} style={{width: width, height: height}} ref={'textLayerDiv' + num} />
           <div key={'separator' + num} style={{height: 10 + 'px', backgroundColor: 'grey'}} />
         </div>
       )
@@ -115,8 +132,12 @@ class Viewer extends Component {
   }
 }
 
-const mapStateToProps = function (store) {
-  return {width: store.bibliotheka[2].size}
-}
+// const mapStateToProps = function (store) {
+//   console.log(`store.bibliotheka[3].width: ${store.bibliotheka[3].width}`)
+//   return {
+//     width: store.bibliotheka[3].width
+//   }
+// }
 
-export default connect(mapStateToProps)(Viewer)
+// export default connect(mapStateToProps)(Viewer)
+export default Viewer

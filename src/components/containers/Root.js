@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import store from '../../store'
 import PanelContainer from '../views/PanelContainer.jsx'
@@ -19,14 +20,14 @@ class Root extends React.Component {
     this.panelHide = this.panelHide.bind(this)
   }
 
+  viewerResized () {
+    console.log('viewerResized triggered')
+  }
+
   dragStart (e, divisor, orientation) {
     console.log('divisor:' + divisor)
-    let position
-    if (orientation === 'horizontal') {
-      position = e.clientY
-    } else {
-      position = e.clientX
-    }
+    let positionY = e.clientY
+    let positionX = e.clientX
     this.unFocus()
 
     store.dispatch({
@@ -34,7 +35,8 @@ class Root extends React.Component {
       divisor: divisor,
       orientation: orientation,
       resize: true,
-      position: position
+      positionX: positionX,
+      positionY: positionY
     })
 
     document.onmouseup = (g) => this.dragRelease(g, divisor, orientation)
@@ -42,19 +44,16 @@ class Root extends React.Component {
   }
 
   drag (e, divisor, orientation) {
-    let position
-    if (orientation === 'horizontal') {
-      position = e.clientY
-    } else {
-      position = e.clientX
-    }
+    let positionY = e.clientY
+    let positionX = e.clientX
     this.unFocus()
     if (this.props.resize) {
       store.dispatch({
         type: 'NEW_POSITION',
         divisor: divisor,
         orientation: orientation,
-        position: position
+        positionX: positionX,
+        positionY: positionY
       })
     }
   }
@@ -95,7 +94,7 @@ class Root extends React.Component {
   render () {
     return (
       <div className={styles.main}>
-        <Panel size={this.props.size[0]} orientation='horizontal'>
+        <Panel height={this.props.height[0]} orientation='horizontal'>
           <div>
             <ToggleButton hidePanel={this.panelHide} panelId={1} panelName='Left' />
             <ToggleButton hidePanel={this.panelHide} panelId={2} panelName='Main' />
@@ -105,27 +104,27 @@ class Root extends React.Component {
         </Panel>
         <Divisor divisor={0} orientation='horizontal' mousePushedDown={this.dragStart} />
         <div className={styles.screenHor}>
-          <Panel visible={this.props.visible[1]} size={this.props.size[1]} orientation='vertical'>
+          <Panel visible={this.props.visible[1]} width={this.props.width[1]} orientation='vertical'>
             <div>
               Left pane!
             </div>
           </Panel>
           <Divisor divisor={1} display={this.props.visible[1]} orientation='vertical' mousePushedDown={this.dragStart} />
           <div className={styles.screenVer}>
-            <PanelContainer height={window.innerHeight - this.props.size[0]}>
-              <Panel visible={this.props.visible[2]} size={this.props.size[2]} orientation='horizontal'>
+            <PanelContainer ref='PanelContainer' height={window.innerHeight - this.props.height[0]} width={this.props.width[3]}>
+              <Panel visible={this.props.visible[2]} height={this.props.height[2]} orientation='horizontal'>
                 <div>
                   <ListView />
                 </div>
               </Panel>
               <Divisor divisor={2} display={this.props.visible[2] === 'none' || this.props.visible[3] === 'none' ? 'none' : 'block'} orientation='horizontal' mousePushedDown={this.dragStart} />
-              <Panel visible={this.props.visible[3]} size={this.props.size[3]} orientation='horizontal'>
-                <Viewer />
+              <Panel visible={this.props.visible[3]} height={this.props.height[3]} orientation='horizontal'>
+                <Viewer widthPdf={this.props.width[3]} />
               </Panel>
             </PanelContainer>
           </div>
-          <Divisor divisor={4} display={this.props.visible[4]} orientation='vertical' mousePushedDown={this.dragStart} />
-          <Panel visible={this.props.visible[4]} size={window.innerWidth - this.props.size[4]} orientation='vertical'>
+          <Divisor divisor={3} display={this.props.visible[4]} orientation='vertical' mousePushedDown={this.dragStart} />
+          <Panel visible={this.props.visible[4]} width={this.props.width[4]} orientation='vertical'>
             <div>
               Right pane!
             </div>
@@ -144,12 +143,19 @@ const mapStateToProps = function (store, ownProps) {
     resize = false
   }
   return {
-    size: [
-      store.bibliotheka[0].size,
-      store.bibliotheka[1].size,
-      store.bibliotheka[2].size,
-      store.bibliotheka[3].size,
-      store.bibliotheka[4].size
+    width: [
+      store.bibliotheka[0].width,
+      store.bibliotheka[1].width,
+      store.bibliotheka[2].width,
+      store.bibliotheka[3].width,
+      store.bibliotheka[4].width
+    ],
+    height: [
+      store.bibliotheka[0].height,
+      store.bibliotheka[1].height,
+      store.bibliotheka[2].height,
+      store.bibliotheka[3].height,
+      store.bibliotheka[4].height
     ],
     visible: [
       store.bibliotheka[0].visible,

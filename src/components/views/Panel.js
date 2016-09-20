@@ -3,31 +3,27 @@ import React from 'react'
 class Panel extends React.Component {
 
   render () {
-    let styleLVert = {
-      width: this.props.size,
-      position: 'relative',
-      outline: 'none',
-      display: this.props.visible,
-      overflowY: 'scroll'
-    }
-
-    let styleLHoriz = {
-      height: this.props.size,
-      position: 'relative',
-      outline: 'none',
-      display: this.props.visible,
-      overflowY: 'scroll'
-    }
-
-    let styleL
-    if (this.props.orientation === 'horizontal') {
-      styleL = styleLHoriz
+    let stylePanel
+    if (this.props.orientation === 'vertical') {
+      stylePanel = {
+        width: this.props.width,
+        position: 'relative',
+        outline: 'none',
+        display: this.props.visible,
+        overflowY: 'scroll'
+      }
     } else {
-      styleL = styleLVert
+      stylePanel = {
+        height: this.props.height,
+        position: 'relative',
+        outline: 'none',
+        display: this.props.visible,
+        overflowY: 'scroll'
+      }
     }
 
     return (
-      <div style={styleL || {}}>
+      <div style={stylePanel || {}}>
         {this.props.children}
       </div>
     )
