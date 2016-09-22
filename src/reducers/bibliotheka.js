@@ -1,5 +1,9 @@
 import { NEW_POSITION, RESIZE_TOGGLE, VISIBLE_TOGGLE } from '../constants/ActionTypes'
 
+const initWidth1 = 225
+
+const initWidth4 = 400
+
 const initialState = [
   {
     panel: 0,
@@ -13,7 +17,7 @@ const initialState = [
     panel: 1,
     position: 0,
     resize: false,
-    width: 250,
+    width: initWidth1,
     height: window.innerHeight - 100,
     visible: 'block'
   },
@@ -21,7 +25,7 @@ const initialState = [
     panel: 2,
     position: 0,
     resize: false,
-    width: window.innerWidth - 400 - 250,
+    width: window.innerWidth - initWidth4 - initWidth1,
     height: 50 + '%',
     visible: 'block'
   },
@@ -29,7 +33,7 @@ const initialState = [
     panel: 3,
     position: 0,
     resize: false,
-    width: window.innerWidth - 400 - 250,
+    width: window.innerWidth - initWidth4 - initWidth1,
     height: 50 + '%',
     visible: 'block'
   },
@@ -37,7 +41,7 @@ const initialState = [
     panel: 4,
     position: 0,
     resize: false,
-    width: 400,
+    width: initWidth4,
     height: window.innerHeight - 100,
     visible: 'block'
   }

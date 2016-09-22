@@ -39,8 +39,11 @@ class Root extends React.Component {
       positionY: positionY
     })
 
-    document.onmouseup = (g) => this.dragRelease(g, divisor, orientation)
-    document.onmousemove = (g) => this.drag(g, divisor, orientation)
+    let lala = (g) => this.dragRelease(g, divisor, orientation, lala, lolo)
+    let lolo = (g) => this.drag(g, divisor, orientation)
+
+    document.addEventListener('mouseup', lala)
+    document.addEventListener('mousemove', lolo)
   }
 
   drag (e, divisor, orientation) {
@@ -58,10 +61,10 @@ class Root extends React.Component {
     }
   }
 
-  dragRelease (e, divisor, orientation) {
+  dragRelease (e, divisor, orientation, lala, lolo) {
     // console.log('dragRelease called')
-    // document.removeEventListener('mouseup', (g) => this.dragRelease(g, divisor, orientation))
-    // document.removeEventListener('mousemove', (g) => this.drag(g, divisor, orientation))
+    document.removeEventListener('mouseup', lala)
+    document.removeEventListener('mousemove', lolo)
     store.dispatch({
       type: 'RESIZE_TOGGLE',
       divisor: divisor,

@@ -21,17 +21,29 @@ class Viewer extends Component {
     pdfjsLib.PDFJS.workerSrc = '../../../build/js/pdf.worker.bundle.js'
     this.loadPdf(pdfPath)
 
-    let container = ReactDOM.findDOMNode(this.refs.container)
-    container.addEventListener('resize', this.resizePdf)
+    // let container = ReactDOM.findDOMNode(this.refs.container)
+    // container.addEventListener('resize', this.resizePdf)
   }
 
-  resizePdf () {
-    console.log(`resizePdf triggered`)
-    for (let i = 1; i < this.state.pdf.numPages; i++) {
-      let canvas = ReactDOM.findDOMNode(this.refs['canvas'.concat(i)])
-      canvas.width = this.props.width
+  componentWillReceiveProps (newProps) {
+    if (newProps.widthPdf !== this.props.widthPdf) {
+      for (let i = 1; i <= this.state.numPages; i++) {
+        let textLayerDiv = ReactDOM.findDOMNode(this.refs['textLayerDiv'.concat(i)])
+        var scale = newProps.widthPdf / this.state.textLayerWidth
+        let CustomStyle = pdfjsLib.CustomStyle
+        CustomStyle.setProp('transform', textLayerDiv,
+            'scale(' + scale + ', ' + scale + ')')
+        CustomStyle.setProp('transformOrigin', textLayerDiv, '0% 0%')
+      }
     }
   }
+  // resizePdf () {
+  //   console.log(`resizePdf triggered`)
+  //   for (let i = 1; i < this.state.pdf.numPages; i++) {
+  //     let canvas = ReactDOM.findDOMNode(this.refs['canvas'.concat(i)])
+  //     canvas.width = this.props.width
+  //   }
+  // }
 
   loadPdf (pdfPath) {
     pdfjsLib.getDocument(pdfPath).then(function (pdf) {
@@ -96,18 +108,20 @@ class Viewer extends Component {
       let textLayer = new PDFJS.TextLayerBuilder({
         textLayerDiv: textLayerDiv,
         pageIndex: pageNumber - 1,
-        viewport: viewport
+        viewport: viewport,
+        enhanceTextSelection: true
       })
 
       textLayer.setTextContent(textContent)
+      console.log(`textLayer.viewport.width: ${textLayer.viewport.width}`)
+      this.setState({textLayerWidth: textLayer.viewport.width})
       textLayer.render()
-    }).catch(function (reason) {
+    }.bind(this)).catch(function (reason) {
       console.error('Error: ' + reason)
     })
   }
 
   render () {
-    console.log(`this.props.widthPdf: ${this.props.widthPdf}`)
     let width = this.props.widthPdf
     let height = width * this.state.canvasSizeRatio
     let numbers = []
