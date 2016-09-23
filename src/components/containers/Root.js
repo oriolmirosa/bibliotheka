@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import store from '../../store'
 import PanelContainer from '../views/PanelContainer.jsx'
@@ -99,35 +98,40 @@ class Root extends React.Component {
       <div className={styles.main}>
         <Panel height={this.props.height[0]} orientation='horizontal'>
           <div>
-            <ToggleButton hidePanel={this.panelHide} panelId={1} panelName='Left' />
-            <ToggleButton hidePanel={this.panelHide} panelId={2} panelName='Main' />
-            <ToggleButton hidePanel={this.panelHide} panelId={3} panelName='PDF' />
-            <ToggleButton hidePanel={this.panelHide} panelId={4} panelName='Right' />
+            <ToggleButton hidePanel={this.panelHide} panelId={1} panelName='Tabs' />
+            <ToggleButton hidePanel={this.panelHide} panelId={2} panelName='Left' />
+            <ToggleButton hidePanel={this.panelHide} panelId={3} panelName='Main' />
+            <ToggleButton hidePanel={this.panelHide} panelId={4} panelName='PDF' />
+            <ToggleButton hidePanel={this.panelHide} panelId={5} panelName='Right' />
           </div>
         </Panel>
         <Divisor divisor={0} orientation='horizontal' mousePushedDown={this.dragStart} />
+        <Panel visible={this.props.visible[1]} height={this.props.height[1]} orientation='horizontal'>
+          Tabs!
+        </Panel>
+        <Divisor divisor={1} visible={this.props.visible[1]} orientation='horizontal' mousePushedDown={this.dragStart} />
         <div className={styles.screenHor}>
-          <Panel visible={this.props.visible[1]} width={this.props.width[1]} orientation='vertical'>
+          <Panel visible={this.props.visible[2]} width={this.props.width[2]} orientation='vertical'>
             <div>
               Left pane!
             </div>
           </Panel>
-          <Divisor divisor={1} display={this.props.visible[1]} orientation='vertical' mousePushedDown={this.dragStart} />
+          <Divisor divisor={2} visible={this.props.visible[2]} orientation='vertical' mousePushedDown={this.dragStart} />
           <div className={styles.screenVer}>
-            <PanelContainer ref='PanelContainer' height={window.innerHeight - this.props.height[0]} width={this.props.width[3]}>
-              <Panel visible={this.props.visible[2]} height={this.props.height[2]} orientation='horizontal'>
+            <PanelContainer ref='PanelContainer' height={window.innerHeight - this.props.height[0] - this.props.height[1]} width={this.props.width[3]}>
+              <Panel visible={this.props.visible[3]} height={this.props.height[3]} orientation='horizontal'>
                 <div>
                   <ListView />
                 </div>
               </Panel>
-              <Divisor divisor={2} display={this.props.visible[2] === 'none' || this.props.visible[3] === 'none' ? 'none' : 'block'} orientation='horizontal' mousePushedDown={this.dragStart} />
-              <Panel visible={this.props.visible[3]} height={this.props.height[3]} orientation='horizontal'>
-                <Viewer widthPdf={this.props.width[3]} />
+              <Divisor divisor={3} visible={this.props.visible[3] === 'none' || this.props.visible[4] === 'none' ? 'none' : 'block'} orientation='horizontal' mousePushedDown={this.dragStart} />
+              <Panel visible={this.props.visible[4]} height={this.props.height[4]} orientation='horizontal'>
+                <Viewer widthPdf={this.props.width[4]} />
               </Panel>
             </PanelContainer>
           </div>
-          <Divisor divisor={3} display={this.props.visible[4]} orientation='vertical' mousePushedDown={this.dragStart} />
-          <Panel visible={this.props.visible[4]} width={this.props.width[4]} orientation='vertical'>
+          <Divisor divisor={4} visible={this.props.visible[4]} orientation='vertical' mousePushedDown={this.dragStart} />
+          <Panel visible={this.props.visible[5]} width={this.props.width[5]} orientation='vertical'>
             <div>
               Right pane!
             </div>
@@ -151,28 +155,32 @@ const mapStateToProps = function (store, ownProps) {
       store.bibliotheka[1].width,
       store.bibliotheka[2].width,
       store.bibliotheka[3].width,
-      store.bibliotheka[4].width
+      store.bibliotheka[4].width,
+      store.bibliotheka[5].width
     ],
     height: [
       store.bibliotheka[0].height,
       store.bibliotheka[1].height,
       store.bibliotheka[2].height,
       store.bibliotheka[3].height,
-      store.bibliotheka[4].height
+      store.bibliotheka[4].height,
+      store.bibliotheka[5].height
     ],
     visible: [
       store.bibliotheka[0].visible,
       store.bibliotheka[1].visible,
       store.bibliotheka[2].visible,
       store.bibliotheka[3].visible,
-      store.bibliotheka[4].visible
+      store.bibliotheka[4].visible,
+      store.bibliotheka[5].visible
     ],
     defaultSize: [
       store.bibliotheka[0].defaultSize,
       store.bibliotheka[1].defaultSize,
       store.bibliotheka[2].defaultSize,
       store.bibliotheka[3].defaultSize,
-      store.bibliotheka[4].defaultSize
+      store.bibliotheka[4].defaultSize,
+      store.bibliotheka[5].defaultSize
     ],
     resize: resize
   }

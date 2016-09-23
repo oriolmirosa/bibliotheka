@@ -12,7 +12,7 @@ class Divisor extends React.Component {
     }
 
     return (
-      <div style={{display: this.props.display}} className={divisorClass} onMouseDown={(e) => this.props.mousePushedDown(e, this.props.divisor, this.props.orientation)} />
+      <div style={{display: this.props.visible}} className={divisorClass} onMouseDown={(e) => this.props.mousePushedDown(e, this.props.divisor, this.props.orientation)} />
     )
   }
 }

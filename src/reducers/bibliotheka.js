@@ -1,8 +1,9 @@
 import { NEW_POSITION, RESIZE_TOGGLE, VISIBLE_TOGGLE } from '../constants/ActionTypes'
 
-const initWidth1 = 225
-
-const initWidth4 = 400
+const initHeight0 = 100
+const initHeight1 = 30
+const initWidth2 = 225
+const initWidth5 = 400
 
 const initialState = [
   {
@@ -10,30 +11,30 @@ const initialState = [
     position: 0,
     resize: false,
     width: 100 + '%',
-    height: 100,
+    height: initHeight0,
     visible: 'block'
   },
   {
     panel: 1,
     position: 0,
     resize: false,
-    width: initWidth1,
-    height: window.innerHeight - 100,
+    width: 100 + '%',
+    height: initHeight1,
     visible: 'block'
   },
   {
     panel: 2,
     position: 0,
     resize: false,
-    width: window.innerWidth - initWidth4 - initWidth1,
-    height: 50 + '%',
+    width: initWidth2,
+    height: window.innerHeight - initHeight0 - initHeight1,
     visible: 'block'
   },
   {
     panel: 3,
     position: 0,
     resize: false,
-    width: window.innerWidth - initWidth4 - initWidth1,
+    width: window.innerWidth - initWidth5 - initWidth2,
     height: 50 + '%',
     visible: 'block'
   },
@@ -41,8 +42,16 @@ const initialState = [
     panel: 4,
     position: 0,
     resize: false,
-    width: initWidth4,
-    height: window.innerHeight - 100,
+    width: window.innerWidth - initWidth5 - initWidth2,
+    height: 50 + '%',
+    visible: 'block'
+  },
+  {
+    panel: 5,
+    position: 0,
+    resize: false,
+    width: initWidth5,
+    height: window.innerHeight - initHeight0 - initHeight1,
     visible: 'block'
   }
 ]
@@ -58,40 +67,46 @@ const bibliotheka = function (state = initialState, action) {
           newHeight = action.positionY
         }
         if (action.divisor === 0 && index === 1) {
-          newHeight = window.innerHeight - action.positionY
+          newHeight = window.innerHeight - action.positionY - state[2].height
         }
-        if (action.divisor === 0 && index === 2) {
-          let prop = state[2].height / (state[2].height + state[3].height)
-          newHeight = prop * (window.innerHeight - action.positionY)
-        }
-        if (action.divisor === 0 && index === 3) {
-          let prop = state[3].height / (state[2].height + state[3].height)
-          newHeight = prop * (window.innerHeight - action.positionY)
-        }
-        if (action.divisor === 0 && index === 4) {
-          newHeight = window.innerHeight - action.positionY
-        }
-
         if (action.divisor === 1 && index === 1) {
-          newWidth = action.positionX
+          newHeight = action.positionY - state[0].height
         }
-
-        if (action.divisor === 1 && (index === 2 || index === 3)) {
-          newWidth = window.innerWidth - state[4].width - action.positionX
+        if (action.divisor === 1 && index === 2) {
+          newHeight = window.innerHeight - action.positionY
+        }
+        if (action.divisor === 1 && index === 3) {
+          let prop = state[3].height / (state[3].height + state[4].height)
+          newHeight = prop * (window.innerHeight - action.positionY)
+        }
+        if (action.divisor === 1 && index === 4) {
+          let prop = state[4].height / (state[3].height + state[4].height)
+          newHeight = prop * (window.innerHeight - action.positionY)
+        }
+        if (action.divisor === 1 && index === 5) {
+          newHeight = window.innerHeight - action.positionY
         }
 
         if (action.divisor === 2 && index === 2) {
-          newHeight = action.positionY - state[0].height
+          newWidth = action.positionX
         }
 
-        if (action.divisor === 2 && index === 3) {
+        if (action.divisor === 2 && (index === 3 || index === 4)) {
+          newWidth = window.innerWidth - state[5].width - action.positionX
+        }
+
+        if (action.divisor === 3 && index === 3) {
+          newHeight = action.positionY - state[0].height - state[1].height
+        }
+
+        if (action.divisor === 3 && index === 4) {
           newHeight = window.innerHeight - action.positionY
         }
 
-        if (action.divisor === 3 && (index === 2 || index === 3)) {
-          newWidth = (action.positionX - state[1].width)
+        if (action.divisor === 4 && (index === 3 || index === 4)) {
+          newWidth = (action.positionX - state[2].width)
         }
-        if (action.divisor === 3 && index === 4) {
+        if (action.divisor === 4 && index === 5) {
           newWidth = window.innerWidth - action.positionX
         }
 
@@ -165,22 +180,39 @@ const bibliotheka = function (state = initialState, action) {
             visible: action.visible
           })
         }
-        if (index === 2 && action.panel === 3 & action.visible === 'none') {
+        if (action.panel === 1 && (index === 2 || index === 5)) {
           return Object.assign({}, panel, {
-            size: window.innerHeight - state[0].size,
-            position: state[2].size
+            height: window.innerHeight - state[0].height
           })
         }
-        if (index === 3 && action.panel === 2 & action.visible === 'none') {
+        if (action.panel === 1 && index === 4) {
           return Object.assign({}, panel, {
-            size: window.innerHeight - state[0].size
+            height: window.innerHeight - state[4].height + state[1].height
           })
         }
-        if (index === 2 && action.panel === 3 & action.visible === 'block') {
+        if (action.panel === 2 && (index === 3 || index === 4)) {
           return Object.assign({}, panel, {
-            size: state[2].position
+            width: window.innerWidth - state[5].width
           })
         }
+
+
+        // if (index === 2 && action.panel === 3 & action.visible === 'none') {
+        //   return Object.assign({}, panel, {
+        //     size: window.innerHeight - state[0].size,
+        //     position: state[2].size
+        //   })
+        // }
+        // if (index === 3 && action.panel === 2 & action.visible === 'none') {
+        //   return Object.assign({}, panel, {
+        //     size: window.innerHeight - state[0].size
+        //   })
+        // }
+        // if (index === 2 && action.panel === 3 & action.visible === 'block') {
+        //   return Object.assign({}, panel, {
+        //     size: state[2].position
+        //   })
+        // }
         return panel
       })
 
