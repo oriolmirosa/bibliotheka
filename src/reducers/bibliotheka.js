@@ -4,6 +4,8 @@ const initHeight0 = 100
 const initHeight1 = 30
 const initWidth2 = 225
 const initWidth5 = 400
+const initHeight3 = (window.innerHeight - initHeight0 - initHeight1) / 2
+const initHeight4 = (window.innerHeight - initHeight0 - initHeight1) / 2
 
 const initialState = [
   {
@@ -12,6 +14,8 @@ const initialState = [
     resize: false,
     width: 100 + '%',
     height: initHeight0,
+    toggleWidth: 100 + '%',
+    toggleHeight: initHeight0,
     visible: 'block'
   },
   {
@@ -20,6 +24,8 @@ const initialState = [
     resize: false,
     width: 100 + '%',
     height: initHeight1,
+    toggleWidth: 100 + '%',
+    toggleHeight: initHeight1,
     visible: 'block'
   },
   {
@@ -28,6 +34,8 @@ const initialState = [
     resize: false,
     width: initWidth2,
     height: window.innerHeight - initHeight0 - initHeight1,
+    toggleWidth: initWidth2,
+    toggleHeight: window.innerHeight - initHeight0 - initHeight1,
     visible: 'block'
   },
   {
@@ -35,7 +43,9 @@ const initialState = [
     position: 0,
     resize: false,
     width: window.innerWidth - initWidth5 - initWidth2,
-    height: 50 + '%',
+    height: initHeight3,
+    toggleWidth: window.innerWidth - initWidth5 - initWidth2,
+    toggleHeight: initHeight3,
     visible: 'block'
   },
   {
@@ -43,7 +53,9 @@ const initialState = [
     position: 0,
     resize: false,
     width: window.innerWidth - initWidth5 - initWidth2,
-    height: 50 + '%',
+    height: initHeight4,
+    toggleWidth: window.innerWidth - initWidth5 - initWidth2,
+    toggleHeight: initHeight4,
     visible: 'block'
   },
   {
@@ -52,6 +64,8 @@ const initialState = [
     resize: false,
     width: initWidth5,
     height: window.innerHeight - initHeight0 - initHeight1,
+    toggleWidth: initWidth5,
+    toggleHeight: window.innerHeight - initHeight0 - initHeight1,
     visible: 'block'
   }
 ]
@@ -67,7 +81,7 @@ const bibliotheka = function (state = initialState, action) {
           newHeight = action.positionY
         }
         if (action.divisor === 0 && index === 1) {
-          newHeight = window.innerHeight - action.positionY - state[2].height
+          newHeight = window.innerHeight - action.positionY - Math.max(state[2].height, (state[3].height + state[4].height), state[5].height)
         }
         if (action.divisor === 1 && index === 1) {
           newHeight = action.positionY - state[0].height
@@ -116,7 +130,6 @@ const bibliotheka = function (state = initialState, action) {
         if (newWidth === undefined) {
           newWidth = panel.width
         }
-
 
           // if (index === 2) {
           //   if (state[3].visible === 'none') {
@@ -175,27 +188,41 @@ const bibliotheka = function (state = initialState, action) {
 
     case VISIBLE_TOGGLE:
       return state.map((panel, index) => {
-        if (index === action.panel) {
-          return Object.assign({}, panel, {
-            visible: action.visible
-          })
-        }
-        if (action.panel === 1 && (index === 2 || index === 5)) {
-          return Object.assign({}, panel, {
-            height: window.innerHeight - state[0].height
-          })
-        }
-        if (action.panel === 1 && index === 4) {
-          return Object.assign({}, panel, {
-            height: window.innerHeight - state[4].height + state[1].height
-          })
-        }
-        if (action.panel === 2 && (index === 3 || index === 4)) {
-          return Object.assign({}, panel, {
-            width: window.innerWidth - state[5].width
-          })
-        }
+        if (action.visible === 'none') {
+          if (index === action.panel) {
+            return Object.assign({}, panel, {
+              visible: action.visible,
+              width: 0,
+              height: 0,
+              toggleWidth: state[index].width,
+              toggleHeight: state[index].height
+            })
+          }
 
+          // if (action.panel === 1 && (index === 2 || index === 5)) {
+          //   return Object.assign({}, panel, {
+          //     height: window.innerHeight - state[0].height
+          //   })
+          // }
+          // if (action.panel === 1 && index === 4) {
+          //   return Object.assign({}, panel, {
+          //     height: window.innerHeight - state[4].height + state[1].height
+          //   })
+          // }
+          // if (action.panel === 2 && (index === 3 || index === 4)) {
+          //   return Object.assign({}, panel, {
+          //     width: window.innerWidth - state[5].width
+          //   })
+          // }
+        } else {
+          if (index === action.panel) {
+            return Object.assign({}, panel, {
+              visible: action.visible,
+              width: state[index].toggleWidth,
+              height: state[index].toggleHeight
+            })
+          }
+        }
 
         // if (index === 2 && action.panel === 3 & action.visible === 'none') {
         //   return Object.assign({}, panel, {

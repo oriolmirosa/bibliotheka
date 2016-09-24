@@ -19,6 +19,55 @@ class Root extends React.Component {
     this.panelHide = this.panelHide.bind(this)
   }
 
+  componentWillReceiveProps (newProps) {
+    console.log(`willReceivedNewProps triggered`)
+    if (newProps.height[1] !== this.props.height[1] && newProps.visible[1] !== this.props.visible[1] && newProps.resize === false) {
+      store.dispatch({
+        type: 'NEW_POSITION',
+        divisor: 0,
+        orientation: 'vertical',
+        positionX: newProps.width[1],
+        positionY: newProps.height[1] + newProps.height[0]
+      })
+    }
+    if (newProps.width[2] !== this.props.width[2] && newProps.visible[2] !== this.props.visible[2] && newProps.resize === false) {
+      store.dispatch({
+        type: 'NEW_POSITION',
+        divisor: 2,
+        orientation: 'vertical',
+        positionX: newProps.width[2],
+        positionY: newProps.height[2]
+      })
+    }
+    if (newProps.height[3] !== this.props.height[3] && newProps.visible[3] !== this.props.visible[3] && newProps.resize === false) {
+      store.dispatch({
+        type: 'NEW_POSITION',
+        divisor: 3,
+        orientation: 'vertical',
+        positionX: newProps.width[4] + newProps.width[2],
+        positionY: newProps.height[0] + newProps.height[1] + newProps.height[3]
+      })
+    }
+    if (newProps.height[4] !== this.props.height[4] && newProps.visible[4] !== this.props.visible[4] && newProps.resize === false) {
+      store.dispatch({
+        type: 'NEW_POSITION',
+        divisor: 3,
+        orientation: 'vertical',
+        positionX: newProps.width[3] + newProps.width[2],
+        positionY: window.innerHeight - newProps.height[4]
+      })
+    }
+    if (newProps.width[5] !== this.props.width[5] && newProps.visible[5] !== this.props.visible[5] && newProps.resize === false) {
+      store.dispatch({
+        type: 'NEW_POSITION',
+        divisor: 4,
+        orientation: 'vertical',
+        positionX: window.innerWidth - newProps.width[5],
+        positionY: window.innerHeight - newProps.height[5]
+      })
+    }
+  }
+
   viewerResized () {
     console.log('viewerResized triggered')
   }
@@ -118,7 +167,7 @@ class Root extends React.Component {
           </Panel>
           <Divisor divisor={2} visible={this.props.visible[2]} orientation='vertical' mousePushedDown={this.dragStart} />
           <div className={styles.screenVer}>
-            <PanelContainer ref='PanelContainer' height={window.innerHeight - this.props.height[0] - this.props.height[1]} width={this.props.width[3]}>
+            <PanelContainer ref='PanelContainer' height={window.innerHeight - this.props.height[0] - this.props.height[1]} width={Math.max(this.props.width[3], this.props.width[4])}>
               <Panel visible={this.props.visible[3]} height={this.props.height[3]} orientation='horizontal'>
                 <div>
                   <ListView />
@@ -130,7 +179,7 @@ class Root extends React.Component {
               </Panel>
             </PanelContainer>
           </div>
-          <Divisor divisor={4} visible={this.props.visible[4]} orientation='vertical' mousePushedDown={this.dragStart} />
+          <Divisor divisor={4} visible={this.props.visible[5]} orientation='vertical' mousePushedDown={this.dragStart} />
           <Panel visible={this.props.visible[5]} width={this.props.width[5]} orientation='vertical'>
             <div>
               Right pane!
