@@ -7,6 +7,9 @@ import Divisor from '../views/Divisor'
 import ToggleButton from '../views/ToggleButton'
 import ListView from '../views/ListView.jsx'
 import Viewer from '../views/Viewer.jsx'
+import TabList from '../views/TabList.jsx'
+import Tab from '../views/Tab.jsx'
+import TabSeparator from '../views/TabSeparator.jsx'
 import styles from '../../../public/css/styles.css'
 
 class Root extends React.Component {
@@ -155,10 +158,12 @@ class Root extends React.Component {
           </div>
         </Panel>
         <Divisor divisor={0} orientation='horizontal' mousePushedDown={this.dragStart} />
-        <Panel visible={this.props.visible[1]} height={this.props.height[1]} orientation='horizontal'>
-          Tabs!
-        </Panel>
-        <Divisor divisor={1} visible={this.props.visible[1]} orientation='horizontal' mousePushedDown={this.dragStart} />
+        <TabList visible={this.props.visible[1]} height={this.props.height[1]} orientation='horizontal'>
+          <Tab selected='yes' title='Tab 1' />
+          <Tab selected='no' title='Tab 2' />
+          <Tab selected='no' title='Tab 3' />
+        </TabList>
+        <Divisor divisor={1} visible='none' orientation='horizontal' mousePushedDown={this.dragStart} />
         <div className={styles.screenHor}>
           <Panel visible={this.props.visible[2]} width={this.props.width[2]} orientation='vertical'>
             <div>

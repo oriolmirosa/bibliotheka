@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom'
 import pdfjsLib from 'pdfjs-dist'
 import { PDFJS } from 'pdfjs-dist/web/pdf_viewer'
 import styles from 'pdfjs-dist/web/pdf_viewer.css'
-import { connect } from 'react-redux'
-import store from '../../store'
 
 class Viewer extends Component {
   constructor (props) {
