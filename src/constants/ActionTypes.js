@@ -4,3 +4,4 @@ export const RESIZE_TOGGLE = 'RESIZE_TOGGLE'
 
 export const VISIBLE_TOGGLE = 'VISIBLE_TOGGLE'
 
+export const TAB_SELECTED = 'TAB_SELECTED'

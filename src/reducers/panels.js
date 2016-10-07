@@ -71,7 +71,6 @@ const initialState = [
 ]
 
 const panels = function (state = initialState, action) {
-  console.log('action.divisor: ' + action.divisor)
   switch (action.type) {
     case NEW_POSITION:
       return state.map((panel, index) => {

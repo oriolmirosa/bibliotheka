@@ -11,3 +11,7 @@ export function resizeToggle (divisor, orientation, resize, positionX, positionY
 export function visibleToggle (panel, visible) {
   return {type: types.VISIBLE_TOGGLE, panel: panel, visible: visible}
 }
+
+export function tabSelected (id) {
+	return {type: types.TAB_SELECTED, id: id}
+}

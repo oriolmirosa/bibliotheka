@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import store from '../../store'
 
 class Tab extends Component {
   constructor (props) {
@@ -8,14 +9,13 @@ class Tab extends Component {
   }
 
   select () {
-    console.log('select triggered')
-    if (this.props.selected === 'no') {
-      this.props.selected = 'yes'
-    }
+    console.log(`select ${this.props.id} triggered`)
+    store.dispatch({type: 'TAB_SELECTED', id: this.props.id})
   }
 
   render () {
     const tabStyle = {
+			boxSizing: 'borderBox',
       display: 'inline-block',
       width: 75 + 'px',
       height: 100 + '%',
@@ -24,7 +24,7 @@ class Tab extends Component {
       borderColor: 'black',
       borderTopLeftRadius: 5,
       borderTopRightRadius: 5,
-      borderBottom: 0 + 'px',
+			borderBottomWidth: 1 + 'px',
       backgroundColor: '#fff',
       verticalAlign: 'top'
     }
@@ -38,14 +38,16 @@ class Tab extends Component {
       borderColor: 'black',
       borderTopLeftRadius: 5,
       borderTopRightRadius: 5,
+			borderBottomWidth: 0 + 'px',
       backgroundColor: '#fff',
       verticalAlign: 'top'
     }
     let style
-    if (this.props.selected === 'yes') {
-      style = tabStyle
-    } else {
+		console.log(`this.props.selected: ${this.props.selected}`)
+    if (this.props.selected) {
       style = tabStyleSelected
+    } else {
+      style = tabStyle
     }
 
     return (

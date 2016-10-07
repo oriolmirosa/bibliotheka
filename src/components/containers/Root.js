@@ -159,9 +159,9 @@ class Root extends React.Component {
         </Panel>
         <Divisor divisor={0} orientation='horizontal' mousePushedDown={this.dragStart} />
         <TabList visible={this.props.visible[1]} height={this.props.height[1]} orientation='horizontal'>
-          <Tab selected='yes' title='Tab 1' />
-          <Tab selected='no' title='Tab 2' />
-          <Tab selected='no' title='Tab 3' />
+          <Tab selected={this.props.selected[0]} id={0} title='Tab 1' />
+          <Tab selected={this.props.selected[1]} id={1} title='Tab 2' />
+          <Tab selected={this.props.selected[2]} id={2} title='Tab 3' />
         </TabList>
         <Divisor divisor={1} visible='none' orientation='horizontal' mousePushedDown={this.dragStart} />
         <div className={styles.screenHor}>
@@ -236,7 +236,12 @@ const mapStateToProps = function (store, ownProps) {
       store.panels[4].defaultSize,
       store.panels[5].defaultSize
     ],
-    resize: resize
+    resize: resize,
+		selected: [
+			store.tabs.tabs[0].selected,
+			store.tabs.tabs[1].selected,
+			store.tabs.tabs[2].selected
+		]
   }
 }
 
