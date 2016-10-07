@@ -159,7 +159,7 @@ class Root extends React.Component {
         </Panel>
         <Divisor divisor={0} orientation='horizontal' mousePushedDown={this.dragStart} />
         <TabList visible={this.props.visible[1]} height={this.props.height[1]} orientation='horizontal'>
-          <Tab selected={this.props.selected[0]} id={0} title='Tab 1' />
+          <Tab selected={this.props.selected[0]} id={0} id={0} title='Tab 1' />
           <Tab selected={this.props.selected[1]} id={1} title='Tab 2' />
           <Tab selected={this.props.selected[2]} id={2} title='Tab 3' />
         </TabList>

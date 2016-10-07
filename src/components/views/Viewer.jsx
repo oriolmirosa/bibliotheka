@@ -11,7 +11,7 @@ class Viewer extends Component {
     this.loadPage = this.loadPage.bind(this)
     this.renderPage = this.renderPage.bind(this)
 
-    this.state = {}
+    this.state = {canvasSizeRatio: 1}
   }
 
   componentDidMount () {
@@ -128,7 +128,7 @@ class Viewer extends Component {
     }
     let canvasses = numbers.map(function (num) {
       return (
-        <div style={{position: 'relative'}}>
+        <div key={num} style={{position: 'relative'}}>
           <canvas key={'canvas' + num} style={{width: width, height: height}} ref={'canvas' + num} />
           <div key={'div' + num} style={{width: width, height: height}} ref={'textLayerDiv' + num} />
           <div key={'separator' + num} style={{height: 10 + 'px', backgroundColor: 'grey'}} />

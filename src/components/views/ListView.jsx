@@ -1,19 +1,22 @@
 import React, { Component } from 'react'
-// import ListItems from './ListItems'
+import ListItem from './ListItem.jsx'
 import References from '../../../Data/references'
 
 class ListView extends Component {
+	constructor (props) {
+		super(props)
+
+		this.selectedOpen = this.selectedOpen.bind(this)
+	}
+
+	selectedOpen () {
+		console.log(`selectedOpen called`)
+	}
 
   render () {
     const listItems = References.map((reference, index) => {
       return (
-        <div style={{width: 100 + '%', height: 75}} key={index}>
-          <span>{reference.author}</span>
-          <span>{reference.year}</span>
-          <span>{reference.title}</span>
-          <span>{reference.publication}</span>
-          <span>{reference.details}</span>
-        </div>
+				<ListItem author={reference.author} year={reference.year} title={reference.title} publication={reference.publication} details={reference.details} key={index} whenClicked={this.selectedOpen} />
       )
     })
     return (
