@@ -198,43 +198,43 @@ class Root extends React.Component {
 
 const mapStateToProps = function (store, ownProps) {
   let resize
-  if (store.bibliotheka[0].resize || store.bibliotheka[1].resize || store.bibliotheka[2].resize || store.bibliotheka[3].resize || store.bibliotheka[4].resize) {
+  if (store.panels[0].resize || store.panels[1].resize || store.panels[2].resize || store.panels[3].resize || store.panels[4].resize) {
     resize = true
   } else {
     resize = false
   }
   return {
     width: [
-      store.bibliotheka[0].width,
-      store.bibliotheka[1].width,
-      store.bibliotheka[2].width,
-      store.bibliotheka[3].width,
-      store.bibliotheka[4].width,
-      store.bibliotheka[5].width
+      store.panels[0].width,
+      store.panels[1].width,
+      store.panels[2].width,
+      store.panels[3].width,
+      store.panels[4].width,
+      store.panels[5].width
     ],
     height: [
-      store.bibliotheka[0].height,
-      store.bibliotheka[1].height,
-      store.bibliotheka[2].height,
-      store.bibliotheka[3].height,
-      store.bibliotheka[4].height,
-      store.bibliotheka[5].height
+      store.panels[0].height,
+      store.panels[1].height,
+      store.panels[2].height,
+      store.panels[3].height,
+      store.panels[4].height,
+      store.panels[5].height
     ],
     visible: [
-      store.bibliotheka[0].visible,
-      store.bibliotheka[1].visible,
-      store.bibliotheka[2].visible,
-      store.bibliotheka[3].visible,
-      store.bibliotheka[4].visible,
-      store.bibliotheka[5].visible
+      store.panels[0].visible,
+      store.panels[1].visible,
+      store.panels[2].visible,
+      store.panels[3].visible,
+      store.panels[4].visible,
+      store.panels[5].visible
     ],
     defaultSize: [
-      store.bibliotheka[0].defaultSize,
-      store.bibliotheka[1].defaultSize,
-      store.bibliotheka[2].defaultSize,
-      store.bibliotheka[3].defaultSize,
-      store.bibliotheka[4].defaultSize,
-      store.bibliotheka[5].defaultSize
+      store.panels[0].defaultSize,
+      store.panels[1].defaultSize,
+      store.panels[2].defaultSize,
+      store.panels[3].defaultSize,
+      store.panels[4].defaultSize,
+      store.panels[5].defaultSize
     ],
     resize: resize
   }

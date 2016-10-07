@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import bibliotheka from './bibliotheka'
+import panels from './bibliotheka'
 
-const reducers = combineReducers({bibliotheka})
+const reducers = combineReducers({panels})
 
 export default reducers

@@ -70,7 +70,7 @@ const initialState = [
   }
 ]
 
-const bibliotheka = function (state = initialState, action) {
+const panels = function (state = initialState, action) {
   console.log('action.divisor: ' + action.divisor)
   switch (action.type) {
     case NEW_POSITION:
@@ -248,4 +248,4 @@ const bibliotheka = function (state = initialState, action) {
   }
 }
 
-export default bibliotheka
+export default panels
