@@ -159,9 +159,9 @@ class Root extends React.Component {
         </Panel>
         <Divisor divisor={0} orientation='horizontal' mousePushedDown={this.dragStart} />
         <TabList visible={this.props.visible[1]} height={this.props.height[1]} orientation='horizontal'>
-          <Tab selected={this.props.selected[0]} id={0} id={0} title='Tab 1' />
-          <Tab selected={this.props.selected[1]} id={1} title='Tab 2' />
-          <Tab selected={this.props.selected[2]} id={2} title='Tab 3' />
+          <Tab selected={this.props.selected[0]} id={0} title={this.props.title[0]} />
+          <Tab selected={this.props.selected[1]} id={1} title={this.props.title[1]} />
+          <Tab selected={this.props.selected[2]} id={2} title={this.props.title[2]} />
         </TabList>
         <Divisor divisor={1} visible='none' orientation='horizontal' mousePushedDown={this.dragStart} />
         <div className={styles.screenHor}>
@@ -241,6 +241,11 @@ const mapStateToProps = function (store, ownProps) {
 			store.tabs.tabs[0].selected,
 			store.tabs.tabs[1].selected,
 			store.tabs.tabs[2].selected
+		],
+		title: [
+			store.tabs.tabs[0].title,
+			store.tabs.tabs[1].title,
+			store.tabs.tabs[2].title
 		]
   }
 }

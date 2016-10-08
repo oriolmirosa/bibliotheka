@@ -1,5 +1,6 @@
 let references = [
   {
+		id: 0,
     author: 'Noam Chomski',
     year: 1975,
     title: 'The Chomski Book',
@@ -8,6 +9,7 @@ let references = [
 		pdf: '1.pdf'
   },
   {
+		id: 1,
     author: 'Oriol Mirosa',
     year: 2012,
     title: 'Something About Water',
@@ -16,6 +18,7 @@ let references = [
 		pdf: '2.pdf'
   },
   {
+		id: 2,
     author: 'Sarah Karon',
     year: 2015,
     title: 'A Beautiful Novel',
@@ -24,6 +27,7 @@ let references = [
 		pdf: '3.pdf'
   },
   {
+		id: 3,
     author: 'Karl Marx',
     year: 1869,
     title: 'Capital',

@@ -15,3 +15,7 @@ export function visibleToggle (panel, visible) {
 export function tabSelected (id) {
 	return {type: types.TAB_SELECTED, id: id}
 }
+
+export function selectReference (reference) {
+	return {type: types.SELECT_REFERENCE, reference: reference}
+}

@@ -4,17 +4,20 @@ const initialState = {
 	tabs: [
 		{
 			id: 0,
+			reference: 0,
 			title: 'Library',
 			selected: true
 		},
 		{
 			id: 1,
-			title: 'Library',
+			reference: 1,
+			title: 'Ref 1',
 			selected: false
 		},
 		{
 			id: 2,
-			title: 'Library',
+			reference: 2,
+			title: 'Ref 2',
 			selected: false
 		}
 	],
