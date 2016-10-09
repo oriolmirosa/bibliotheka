@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import pdfjsLib from 'pdfjs-dist'
 import { PDFJS } from 'pdfjs-dist/web/pdf_viewer'
 import styles from 'pdfjs-dist/web/pdf_viewer.css'
+import store from '../../store'
+import { connect } from 'react-redux'
 
 class Viewer extends Component {
   constructor (props) {
@@ -15,7 +17,7 @@ class Viewer extends Component {
   }
 
   componentDidMount () {
-    let pdfPath = '../../../data/PDF/2168444.pdf'
+    let pdfPath = this.props.pdf
     pdfjsLib.PDFJS.workerSrc = '../../../build/js/pdf.worker.bundle.js'
     this.loadPdf(pdfPath)
 
@@ -34,6 +36,9 @@ class Viewer extends Component {
         CustomStyle.setProp('transformOrigin', textLayerDiv, '0% 0%')
       }
     }
+		if (newProps.pdf !== this.props.pdf) {
+			this.loadPdf(newProps.pdf)
+		}
   }
   // resizePdf () {
   //   console.log(`resizePdf triggered`)
@@ -144,12 +149,15 @@ class Viewer extends Component {
   }
 }
 
-// const mapStateToProps = function (store) {
-//   console.log(`store.bibliotheka[3].width: ${store.bibliotheka[3].width}`)
-//   return {
-//     width: store.bibliotheka[3].width
-//   }
-// }
+const mapStateToProps = function (store) {
+  let pdf
+	store.refs.map(ref => {
+		if (ref.selected) pdf = '../../../data/PDF/' + ref.pdf
+	})
+  return {
+    pdf: pdf
+  }
+}
 
-// export default connect(mapStateToProps)(Viewer)
-export default Viewer
+export default connect(mapStateToProps)(Viewer)
+// export default Viewer
