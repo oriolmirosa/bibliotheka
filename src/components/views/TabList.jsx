@@ -14,6 +14,22 @@ class TabList extends Component {
       overflowY: 'scroll'
     }
 
+		if (this.props.tabs.length > 1) {
+			if (this.props.visible === 'none') {
+				store.dispatch({
+		      type: 'VISIBLE_TOGGLE',
+		      panel: 1,
+		      visible: 'block'
+		    })
+			}
+		} else {
+			store.dispatch({
+				type: 'VISIBLE_TOGGLE',
+				panel: 1,
+				visible: 'none'
+			})
+		}
+
     let tabs = []
     for (let i = 0; i < this.props.tabs.length; i++) {
       tabs.push(<TabSeparator />)
