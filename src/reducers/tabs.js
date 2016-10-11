@@ -1,4 +1,4 @@
-import { TAB_SELECTED } from '../constants/ActionTypes'
+import { TAB_SELECTED, NEW_TAB } from '../constants/ActionTypes'
 
 const initialState = {
 	tabs: [
@@ -41,7 +41,20 @@ const tabs = function (state = initialState, action) {
 			console.log(`newState: ${JSON.stringify(newState)}`)
 			return newState
 
-		// case TAB_CREATED:
+		case NEW_TAB:
+			const newStateTabs2 = state.tabs.map(tab => {
+				const newTab2 = Object.assign({}, tab)
+				newTab2.selected = false
+				return newTab2
+			})
+			newStateTabs2.push({
+				id: newStateTabs2.length,
+				reference: action.reference,
+				title: `Ref ${newStateTabs2.length}`,
+				selected: true
+			})
+			const newState2 = Object.assign({}, state, {tabs: newStateTabs2}, {selectedTab: newStateTabs2.length - 1})
+			return newState2
 
 		default:
 			return state

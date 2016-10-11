@@ -19,3 +19,7 @@ export function tabSelected (id) {
 export function selectReference (reference) {
 	return {type: types.SELECT_REFERENCE, reference: reference}
 }
+
+export function newTab (reference) {
+	return {type: types.NEW_TAB, reference: reference}
+}

@@ -16,7 +16,7 @@ class ListView extends Component {
   render () {
     const listItems = References.map((reference, index) => {
       return (
-				<ListItem author={reference.author} year={reference.year} title={reference.title} publication={reference.publication} details={reference.details} pdf={reference.pdf} key={index} id={index} />
+				<ListItem key={index} id={index} />
       )
     })
     return (

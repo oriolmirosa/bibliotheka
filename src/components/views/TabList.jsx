@@ -1,36 +1,26 @@
 import React, { Component } from 'react'
+import Tab from './Tab.jsx'
 import TabSeparator from './TabSeparator.jsx'
+import store from '../../store'
+import { connect } from 'react-redux'
 
 class TabList extends Component {
   render () {
-    let stylePanel
-    if (this.props.orientation === 'vertical') {
-      stylePanel = {
-        width: this.props.width,
-        position: 'relative',
-        outline: 'none',
-        display: this.props.visible,
-        overflowY: 'scroll'
-      }
-    } else {
-      stylePanel = {
-        height: this.props.height,
-        position: 'relative',
-        outline: 'none',
-        display: this.props.visible,
-        overflowY: 'scroll'
-      }
+    let stylePanel = {
+      height: this.props.height,
+      position: 'relative',
+      outline: 'none',
+      display: this.props.visible,
+      overflowY: 'scroll'
     }
-
-    let children = this.props.children
 
     let tabs = []
-    for (let i = 0; i < children.length; i++) {
+    for (let i = 0; i < this.props.tabs.length; i++) {
       tabs.push(<TabSeparator />)
-      tabs.push(children[i])
+      tabs.push(<Tab id={this.props.tabs[i].id} selected={this.props.tabs[i].selected} />)
     }
 
-    let occupiedWidth = children.length * 80 // 75px for each tab and 5px for each separator
+    let occupiedWidth = this.props.tabs.length * 80 // 75px for each tab and 5px for each separator
     tabs.push(<div style={{display: 'inline-block', borderWidth: 0, borderBottom: 1 + 'px', borderStyle: 'solid', borderColor: 'black', height: 100 + '%', width: window.innerWidth - occupiedWidth, backgroundColor: '#fff'}} />)
 
     return (
@@ -41,4 +31,16 @@ class TabList extends Component {
   }
 }
 
-export default TabList
+const mapStateToProps = function (store) {
+	let height = store.panels[1].height
+	let visible = store.panels[1].visible
+	let tabs = store.tabs.tabs
+	console.log(`tabs: ${JSON.stringify(tabs, null, 4)}`)
+	return {
+		tabs: tabs,
+		height: height,
+		visible: visible
+	}
+}
+
+export default connect(mapStateToProps)(TabList)

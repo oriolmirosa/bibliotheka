@@ -26,7 +26,7 @@ const initialState = [
     height: initHeight1,
     toggleWidth: 100 + '%',
     toggleHeight: initHeight1,
-    visible: 'block'
+    visible: 'none'
   },
   {
     panel: 2,

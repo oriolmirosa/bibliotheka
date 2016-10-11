@@ -7,3 +7,5 @@ export const VISIBLE_TOGGLE = 'VISIBLE_TOGGLE'
 export const TAB_SELECTED = 'TAB_SELECTED'
 
 export const SELECT_REFERENCE = 'SELECT_REFERENCE'
+
+export const NEW_TAB = 'NEW_TAB'

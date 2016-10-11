@@ -158,11 +158,7 @@ class Root extends React.Component {
           </div>
         </Panel>
         <Divisor divisor={0} orientation='horizontal' mousePushedDown={this.dragStart} />
-        <TabList visible={this.props.visible[1]} height={this.props.height[1]} orientation='horizontal'>
-          <Tab selected={this.props.selected[0]} id={0} title={this.props.title[0]} />
-          <Tab selected={this.props.selected[1]} id={1} title={this.props.title[1]} />
-          <Tab selected={this.props.selected[2]} id={2} title={this.props.title[2]} />
-        </TabList>
+				<TabList visible={this.props.visible[1]} height={this.props.height[1]} />
         <Divisor divisor={1} visible='none' orientation='horizontal' mousePushedDown={this.dragStart} />
         <div className={styles.screenHor}>
           <Panel visible={this.props.visible[2]} width={this.props.width[2]} orientation='vertical'>

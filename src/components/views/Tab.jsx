@@ -52,7 +52,7 @@ class Tab extends Component {
 
     return (
       <div style={style} onClick={this.select}>
-        <div key={this.props.id} style={{padding: 6, textAlign: 'center'}}>{this.props.title}</div>
+        <div key={this.props.id} style={{padding: 6, textAlign: 'center'}}>{this.props.id}</div>
       </div>
     )
   }
