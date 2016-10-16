@@ -11,18 +11,21 @@
     "url": "git+https://oriolmirosa:nicole666@github.com/oriolmirosa/bibliotheka.git"
   },
   "author": "Oriol Mirosa",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/oriolmirosa/bibliotheka/issues"
   },
   "homepage": "https://github.com/oriolmirosa/bibliotheka#readme",
   "dependencies": {
+    "file-loader": "^0.9.0",
+    "font-awesome": "^4.6.3",
     "pdfjs-dist": "^1.5.464",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.7.0",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "url-loader": "^0.5.7"
   },
   "devDependencies": {
     "babel": "^6.5.2",

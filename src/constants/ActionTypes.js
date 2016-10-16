@@ -9,3 +9,5 @@ export const TAB_SELECTED = 'TAB_SELECTED'
 export const SELECT_REFERENCE = 'SELECT_REFERENCE'
 
 export const NEW_TAB = 'NEW_TAB'
+
+export const TAB_CLOSE = 'TAB_CLOSE'

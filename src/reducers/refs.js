@@ -10,8 +10,6 @@ const refs = function (state = initialState, action) {
 	switch(action.type) {
 		case SELECT_REFERENCE:
 			const newState = state.map(reference => {
-				console.log(`action.reference: ${action.reference}`)
-				console.log(`reference.id: ${reference.id}`)
 				if (action.reference === reference.id) {
 					reference.selected = true
 				} else {

@@ -23,7 +23,6 @@ class Root extends React.Component {
   }
 
   componentWillReceiveProps (newProps) {
-    console.log(`willReceivedNewProps triggered`)
     if (newProps.height[1] !== this.props.height[1] && newProps.visible[1] !== this.props.visible[1] && newProps.resize === false) {
       store.dispatch({
         type: 'NEW_POSITION',
@@ -199,6 +198,8 @@ const mapStateToProps = function (store, ownProps) {
   } else {
     resize = false
   }
+	let selected = store.tabs.tabs.map(tab => tab.selected)
+	let title = store.tabs.tabs.map(tab => tab.title)
   return {
     width: [
       store.panels[0].width,
@@ -233,16 +234,8 @@ const mapStateToProps = function (store, ownProps) {
       store.panels[5].defaultSize
     ],
     resize: resize,
-		selected: [
-			store.tabs.tabs[0].selected,
-			store.tabs.tabs[1].selected,
-			store.tabs.tabs[2].selected
-		],
-		title: [
-			store.tabs.tabs[0].title,
-			store.tabs.tabs[1].title,
-			store.tabs.tabs[2].title
-		]
+		selected: selected,
+		title: title
   }
 }
 

@@ -6,12 +6,19 @@ class Tab extends Component {
     super(props)
 
     this.select = this.select.bind(this)
+		this.close = this.close.bind(this)
   }
 
   select () {
     console.log(`select ${this.props.id} triggered`)
     store.dispatch({type: 'TAB_SELECTED', id: this.props.id})
   }
+
+	close (e) {
+		e.stopPropagation()
+		console.log(`close ${this.props.id} triggered`)
+		store.dispatch({type: 'TAB_CLOSE', id: this.props.id})
+	}
 
   render () {
     const tabStyle = {
@@ -26,7 +33,8 @@ class Tab extends Component {
       borderTopRightRadius: 5,
 			borderBottomWidth: 1 + 'px',
       backgroundColor: '#fff',
-      verticalAlign: 'top'
+      verticalAlign: 'top',
+			cursor: 'default'
     }
 
     const tabStyleSelected = {
@@ -40,7 +48,8 @@ class Tab extends Component {
       borderTopRightRadius: 5,
 			borderBottomWidth: 0 + 'px',
       backgroundColor: '#fff',
-      verticalAlign: 'top'
+      verticalAlign: 'top',
+			cursor: 'default'
     }
     let style
 		console.log(`this.props.selected: ${this.props.selected}`)
@@ -52,7 +61,7 @@ class Tab extends Component {
 
     return (
       <div style={style} onClick={this.select}>
-        <div key={this.props.id} style={{padding: 6, textAlign: 'center'}}>{this.props.id}</div>
+        <div key={this.props.id} style={{padding: 6, textAlign: 'center', position: 'relative', cursor: 'default'}}>{this.props.id}<div onClick={this.close} style={{position: 'absolute', right: 0, top: 50 + '%', transform: 'translate(' + -50 + '%, ' + -50 + '%)', cursor: 'default'}}><span>x</span></div></div>
       </div>
     )
   }

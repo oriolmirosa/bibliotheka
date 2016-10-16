@@ -23,3 +23,7 @@ export function selectReference (reference) {
 export function newTab (reference) {
 	return {type: types.NEW_TAB, reference: reference}
 }
+
+export function tabClose (id) {
+	return {type: types.TAB_CLOSE, id: id}
+}
