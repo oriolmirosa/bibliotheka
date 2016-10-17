@@ -5,15 +5,7 @@ import store from '../../store'
 import { connect } from 'react-redux'
 
 class TabList extends Component {
-  render () {
-    let stylePanel = {
-      height: this.props.height,
-      position: 'relative',
-      outline: 'none',
-      display: this.props.visible,
-      overflowY: 'scroll'
-    }
-
+	componentDidMount () {
 		if (this.props.tabs.length > 1) {
 			if (this.props.visible === 'none') {
 				store.dispatch({
@@ -23,12 +15,44 @@ class TabList extends Component {
 		    })
 			}
 		} else {
-			store.dispatch({
-				type: 'VISIBLE_TOGGLE',
-				panel: 1,
-				visible: 'none'
-			})
+			if (this.props.visible === 'block') {
+				store.dispatch({
+					type: 'VISIBLE_TOGGLE',
+					panel: 1,
+					visible: 'none'
+				})
+			}
 		}
+	}
+
+	componentWillReceiveProps (newProps) {
+		if (newProps.tabs.length > 1) {
+			if (newProps.visible === 'none') {
+				store.dispatch({
+		      type: 'VISIBLE_TOGGLE',
+		      panel: 1,
+		      visible: 'block'
+		    })
+			}
+		} else {
+			if (newProps.visible === 'block') {
+				store.dispatch({
+					type: 'VISIBLE_TOGGLE',
+					panel: 1,
+					visible: 'none'
+				})
+			}
+		}
+	}
+
+  render () {
+    let stylePanel = {
+      height: this.props.height,
+      position: 'relative',
+      outline: 'none',
+      display: this.props.visible,
+      overflowY: 'scroll'
+    }
 
     let tabs = []
     for (let i = 0; i < this.props.tabs.length; i++) {
