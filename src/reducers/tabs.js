@@ -56,9 +56,12 @@ const tabs = function (state = initialState, action) {
 
 		case TAB_CLOSE:
 			const newStateTabs3 = state.tabs.filter(tab => {
+					if (action.id === tab.id - 1) {
+						tab.selected = true
+					}
 				return tab.id !== action.id
 			})
-			const newState3 = Object.assign({}, state, {tabs: newStateTabs3})
+			const newState3 = Object.assign({}, state, {tabs: newStateTabs3}, {selectedTab: state.selectedTab - 1})
 			console.log(`newState3: ${JSON.stringify(newState3)}`)
 			return newState3
 

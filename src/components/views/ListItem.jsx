@@ -23,6 +23,18 @@ class ListItem extends React.Component {
 			type: 'NEW_TAB',
 			reference: this.props.id
 		})
+		if (this.props.id !== 0) {
+			store.dispatch({
+				type: 'VISIBLE_TOGGLE',
+				panel: 2,
+				visible: 'none'
+			})
+			store.dispatch({
+				type: 'VISIBLE_TOGGLE',
+				panel: 3,
+				visible: 'none'
+			})
+		}
 	}
 
 	render () {

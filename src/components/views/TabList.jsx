@@ -57,7 +57,7 @@ class TabList extends Component {
     let tabs = []
     for (let i = 0; i < this.props.tabs.length; i++) {
       tabs.push(<TabSeparator />)
-      tabs.push(<Tab id={this.props.tabs[i].id} selected={this.props.tabs[i].selected} />)
+      tabs.push(<Tab id={this.props.tabs[i].id} selected={this.props.tabs[i].selected} selectedTab={this.props.selectedTab} />)
     }
 
     let occupiedWidth = this.props.tabs.length * 80 // 75px for each tab and 5px for each separator
@@ -75,11 +75,13 @@ const mapStateToProps = function (store) {
 	let height = store.panels[1].height
 	let visible = store.panels[1].visible
 	let tabs = store.tabs.tabs
+	let selectedTab = store.tabs.selectedTab
 	console.log(`tabs: ${JSON.stringify(tabs, null, 4)}`)
 	return {
 		tabs: tabs,
 		height: height,
-		visible: visible
+		visible: visible,
+		selectedTab: selectedTab
 	}
 }
 

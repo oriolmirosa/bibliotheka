@@ -11,6 +11,33 @@ class Tab extends Component {
 
   select () {
     console.log(`select ${this.props.id} triggered`)
+		if (this.props.id === 0) {
+			if (this.props.selectedTab !== 0) {
+				store.dispatch({
+					type: 'VISIBLE_TOGGLE',
+					panel: 2,
+					visible: 'block'
+				})
+				store.dispatch({
+					type: 'VISIBLE_TOGGLE',
+					panel: 3,
+					visible: 'block'
+				})
+			}
+		} else {
+			if (this.props.selectedTab === 0) {
+				store.dispatch({
+					type: 'VISIBLE_TOGGLE',
+					panel: 2,
+					visible: 'none'
+				})
+				store.dispatch({
+					type: 'VISIBLE_TOGGLE',
+					panel: 3,
+					visible: 'none'
+				})
+			}
+		}
     store.dispatch({type: 'TAB_SELECTED', id: this.props.id})
   }
 
