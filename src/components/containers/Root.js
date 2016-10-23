@@ -175,7 +175,9 @@ class Root extends React.Component {
               </Panel>
               <Divisor divisor={3} visible={this.props.visible[3] === 'none' || this.props.visible[4] === 'none' ? 'none' : 'block'} orientation='horizontal' mousePushedDown={this.dragStart} />
               <Panel visible={this.props.visible[4]} height={this.props.height[4]} orientation='horizontal'>
-                <Viewer widthPdf={this.props.width[4]} />
+                <Viewer widthPdf={this.props.width[4]} visible={this.props.selected[0]} pdf={this.props.pdf[0]} tabID={this.props.tabID[0]} />
+								<Viewer widthPdf={this.props.width[4]} visible={this.props.selected[1]} pdf={this.props.pdf[1]} tabID={this.props.tabID[1]} />
+								<Viewer widthPdf={this.props.width[4]} visible={this.props.selected[2]} pdf={this.props.pdf[2]} tabID={this.props.tabID[2]} />
               </Panel>
             </PanelContainer>
           </div>
@@ -200,6 +202,8 @@ const mapStateToProps = function (store, ownProps) {
   }
 	let selected = store.tabs.tabs.map(tab => tab.selected)
 	let title = store.tabs.tabs.map(tab => tab.title)
+	let pdf = store.tabs.tabs.map(tab => store.refs[tab.reference].pdf)
+	let tabID = store.tabs.tabs.map(tab => tab.id)
   return {
     width: [
       store.panels[0].width,
@@ -235,7 +239,9 @@ const mapStateToProps = function (store, ownProps) {
     ],
     resize: resize,
 		selected: selected,
-		title: title
+		title: title,
+		pdf: pdf,
+		tabID: tabID
   }
 }
 

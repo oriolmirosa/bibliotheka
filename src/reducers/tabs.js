@@ -12,7 +12,7 @@ const initialState = {
 			id: 1,
 			reference: 1,
 			title: 'Ref 1',
-			selected: false
+			selected: false,
 		},
 		{
 			id: 2,

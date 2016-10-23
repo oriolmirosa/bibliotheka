@@ -17,12 +17,9 @@ class Viewer extends Component {
   }
 
   componentDidMount () {
-    let pdfPath = this.props.pdf
+    let pdfPath = this.props.tabID === 0 ? this.props.pdfMainTab : '../../../data/PDF/' + this.props.pdf
     pdfjsLib.PDFJS.workerSrc = '../../../build/js/pdf.worker.bundle.js'
     this.loadPdf(pdfPath)
-
-    // let container = ReactDOM.findDOMNode(this.refs.container)
-    // container.addEventListener('resize', this.resizePdf)
   }
 
   componentWillReceiveProps (newProps) {
@@ -36,17 +33,10 @@ class Viewer extends Component {
         CustomStyle.setProp('transformOrigin', textLayerDiv, '0% 0%')
       }
     }
-		if (newProps.pdf !== this.props.pdf) {
-			this.loadPdf(newProps.pdf)
+		if (this.props.tabID === 0 && newProps.pdfMainTab !== this.props.pdfMainTab) {
+			this.loadPdf(newProps.pdfMainTab)
 		}
   }
-  // resizePdf () {
-  //   console.log(`resizePdf triggered`)
-  //   for (let i = 1; i < this.state.pdf.numPages; i++) {
-  //     let canvas = ReactDOM.findDOMNode(this.refs['canvas'.concat(i)])
-  //     canvas.width = this.props.width
-  //   }
-  // }
 
   loadPdf (pdfPath) {
     pdfjsLib.getDocument(pdfPath).then(function (pdf) {
@@ -74,7 +64,6 @@ class Viewer extends Component {
 
     let scaleForWidth = container.offsetWidth / pdfPage.getViewport(1).width
     let viewport = pdfPage.getViewport(scaleForWidth)
-    // console.log(`this.props.width: ${this.props.width}`)
     canvas.width = viewport.width
     canvas.height = viewport.height
     let ctx = canvas.getContext('2d')
@@ -116,7 +105,6 @@ class Viewer extends Component {
       })
 
       textLayer.setTextContent(textContent)
-      console.log(`textLayer.viewport.width: ${textLayer.viewport.width}`)
       this.setState({textLayerWidth: textLayer.viewport.width})
       textLayer.render()
     }.bind(this)).catch(function (reason) {
@@ -131,16 +119,16 @@ class Viewer extends Component {
     for (var i = 1; i <= this.state.numPages; i++) {
       numbers.push(i)
     }
+		let display = this.props.visible ? 'block' : 'none'
     let canvasses = numbers.map(function (num) {
       return (
-        <div key={num} style={{position: 'relative'}}>
+        <div key={num} style={{position: 'relative', display: display}}>
           <canvas key={'canvas' + num} style={{width: width, height: height}} ref={'canvas' + num} />
           <div key={'div' + num} style={{width: width, height: height}} ref={'textLayerDiv' + num} />
           <div key={'separator' + num} style={{height: 10 + 'px', backgroundColor: 'grey'}} />
         </div>
       )
     })
-
     return (
       <div ref='container'>
         {canvasses}
@@ -155,9 +143,8 @@ const mapStateToProps = function (store) {
 		if (ref.selected) pdf = '../../../data/PDF/' + ref.pdf
 	})
   return {
-    pdf: pdf
+    pdfMainTab: pdf
   }
 }
 
 export default connect(mapStateToProps)(Viewer)
-// export default Viewer
