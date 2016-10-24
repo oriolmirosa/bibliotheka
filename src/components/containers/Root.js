@@ -112,7 +112,6 @@ class Root extends React.Component {
   }
 
   dragRelease (e, divisor, orientation, lala, lolo) {
-    // console.log('dragRelease called')
     document.removeEventListener('mouseup', lala)
     document.removeEventListener('mousemove', lolo)
     store.dispatch({
